@@ -2,7 +2,7 @@
 
 ### Trying to make a simple FPS game with JavaScript and THREE.js
 
-## Windows using method
+## How to use it in Windows
 
 - Open cmd and access the game directory.
 - Python 3.5 or above must be installed (or a tool that provides you with a local web server).
