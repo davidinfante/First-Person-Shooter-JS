@@ -17,6 +17,7 @@ class TheScene extends THREE.Scene {
     this.robot = null;
     this.ground = null;
     this.fly = null;
+    //this.crosshair = null;
     this.createLights ();
     this.createCamera (renderer);
     this.axis = new THREE.AxisHelper (25);
@@ -41,6 +42,37 @@ class TheScene extends THREE.Scene {
     this.trackballControls.panSpeed = 0.5;
     this.trackballControls.target = look;
     
+
+    var material = new THREE.LineBasicMaterial({ color: 0xAAFFAA });
+
+    // crosshair size
+    var x = 0.01, y = 0.01;
+
+    var geometry = new THREE.Geometry();
+
+    // crosshair
+    geometry.vertices.push(new THREE.Vector3(0, y, 0));
+    geometry.vertices.push(new THREE.Vector3(0, -y, 0));
+    geometry.vertices.push(new THREE.Vector3(0, 0, 0));
+    geometry.vertices.push(new THREE.Vector3(x, 0, 0));    
+    geometry.vertices.push(new THREE.Vector3(-x, 0, 0));
+
+    var crosshair = new THREE.Line( geometry, material );
+
+    // place it in the center
+    var crosshairPercentX = 50;
+    var crosshairPercentY = 50;
+    var crosshairPositionX = (crosshairPercentX / 100) * 2 - 1;
+    var crosshairPositionY = (crosshairPercentY / 100) * 2 - 1;
+
+    crosshair.position.x = crosshairPositionX * this.camera.aspect;
+    crosshair.position.y = crosshairPositionY;
+
+    crosshair.position.z = -0.3;
+
+    this.camera.add( crosshair );
+
+
     this.add(this.camera);
   }
   
@@ -78,6 +110,13 @@ class TheScene extends THREE.Scene {
     this.ground = new Ground (200, 300, new THREE.MeshPhongMaterial ({map: textura}));
     model.add (this.ground);
 
+    /*var textura = loader.load ("imgs/green.jpg");
+    this.crosshair = new Crosshair(new THREE.MeshPhongMaterial ({map: textura}));
+    model.add (this.crosshair);
+
+    this.crosshair.rotateCrosshair(45, window.innerWidth / window.innerHeight, 0.1);
+    this.crosshair.moveCrosshair(60, 30, 60);
+    this.crosshair.rotateCrosshair(0, 20, 0);*/
 
     return model;
   }

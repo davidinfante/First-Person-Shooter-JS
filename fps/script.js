@@ -120,7 +120,7 @@ function render() {
   requestAnimationFrame(render);
 
   stats.update();
-  scene.getCameraControls().update ();
+  scene.getCameraControls().update();
   scene.animate(GUIcontrols);
 
   renderer.render(scene, scene.getCamera());
