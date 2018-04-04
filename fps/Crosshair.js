@@ -5,10 +5,15 @@
 
 class Crosshair extends THREE.Object3D {
 
-  constructor (aMaterial) {
+  constructor () {
     super();
 
-    this.material = aMaterial;
+    this.material = new THREE.LineBasicMaterial({ color: 0x23ff02 });;
+
+    this.xLenght = 0.0005;
+    this.yLenght = 0.009;
+    this.zLenght = 0.001;
+    this.crosshairPos = 0.0075;
 
     this.crosshair = null;
     
@@ -16,10 +21,10 @@ class Crosshair extends THREE.Object3D {
     this.add (this.crosshair);
   }
   
-  //It creates de tree's root
+  // It creates de tree's root
   createRoot() {
     var root = new THREE.Object3D();
-    root.castShadow = true;
+    root.castShadow = false;
     root.autoUpdateMatrix = false;
     root.updateMatrix();
     root.add(this.createCrosshair("U"));
@@ -29,44 +34,34 @@ class Crosshair extends THREE.Object3D {
     return root;
   }
 
-  /// It creates the crosshair
+  // It creates one of the four crosshair parts
   createCrosshair(part) {
-    var rectangle = new THREE.Mesh (new THREE.BoxGeometry (0.5, 2, 0.1), this.material);
+    var rectangle = new THREE.Mesh (new THREE.BoxGeometry (this.xLenght, this.yLenght, this.zLenght), this.material);
 
     rectangle.castShadow = false;
     rectangle.autoUpdateMatrix = false;
     
     switch (part) {
       case "U":
-        rectangle.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (0, 29, 0));
+        rectangle.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (0, this.crosshairPos, 0));
       break;
       case "D":
-        rectangle = new THREE.Mesh (new THREE.BoxGeometry (0.5, 2, 0.1), this.material);
-        rectangle.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (0, 25, 0));
+        rectangle = new THREE.Mesh (new THREE.BoxGeometry (this.xLenght, this.yLenght, this.zLenght), this.material);
+        rectangle.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (0, -this.crosshairPos, 0));
       break;
       case "L":
-        rectangle = new THREE.Mesh (new THREE.BoxGeometry (2, 0.5, 0.1), this.material);
-        rectangle.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-2, 27, 0));
+        rectangle = new THREE.Mesh (new THREE.BoxGeometry (this.yLenght, this.xLenght, this.zLenght), this.material);
+        rectangle.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (-this.crosshairPos, 0, 0));
       break;
       case "R":
-        rectangle = new THREE.Mesh (new THREE.BoxGeometry (2, 0.5, 0.1), this.material);
-        rectangle.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (2, 27, 0));
+        rectangle = new THREE.Mesh (new THREE.BoxGeometry (this.yLenght, this.xLenght, this.zLenght), this.material);
+        rectangle.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (this.crosshairPos, 0, 0));
       break;
     }
 
     rectangle.updateMatrix();
 
     return rectangle;
-  }
-
-  moveCrosshair(Tx, Ty, Tz) {
-    this.crosshair.applyMatrix (new THREE.Matrix4().makeTranslation (Tx, Ty, Tz));
-  }
-
-  rotateCrosshair(Rx, Ry, Rz) {
-    this.crosshair.rotation.x = Rx;
-    this.crosshair.rotation.y = Ry;
-    this.crosshair.rotation.z = Rz;
   }
   
 }

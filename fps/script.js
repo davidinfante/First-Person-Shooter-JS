@@ -76,12 +76,12 @@ function setMessage (str) {
  * @param event - Mouse information
  */
 function onMouseDown (event) {
-  if (event.ctrlKey) {
+  //if (event.ctrlKey) {
     // The Trackballcontrol only works if Ctrl key is pressed
     scene.getCameraControls().enabled = true;
-  } else {
+  /*} else {
     scene.getCameraControls().enabled = false;
-  }
+  }*/
 }
 
 /// It processes the wheel rolling of the mouse
