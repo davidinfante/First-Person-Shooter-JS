@@ -1,5 +1,7 @@
 # First Person Shooter with JS
 
+## I have only tried a few things yet, it's far from being done
+
 ### Trying to make a simple FPS game with JavaScript and THREE.js
 
 ## How to use it in Windows
