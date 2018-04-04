@@ -13,7 +13,7 @@ class TheScene extends THREE.Scene {
     this.ambientLight = null;
     this.spotLight = null;
     this.camera = null;
-    this.trackballControls = null;
+    this.controls = null;
     this.robot = null;
     this.ground = null;
     this.fly = null;
@@ -32,15 +32,15 @@ class TheScene extends THREE.Scene {
    */
   createCamera (renderer) {
     this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    this.camera.position.set (60, 30, 60);
-    var look = new THREE.Vector3 (0,20,0);
-    this.camera.lookAt(look);
+    this.camera.position.set (0, 7, -100);
+    //var look = new THREE.Vector3 (5, 7, 0);
+    //this.camera.lookAt(look);
 
-    this.trackballControls = new THREE.TrackballControls (this.camera, renderer);
-    this.trackballControls.rotateSpeed = 5;
-    this.trackballControls.zoomSpeed = -2;
-    this.trackballControls.panSpeed = 0.5;
-    this.trackballControls.target = look;
+    this.controls = new THREE.TrackballControls (this.camera, renderer);
+    this.controls.rotateSpeed = 5;
+    this.controls.zoomSpeed = -2;
+    this.controls.panSpeed = 0.5;
+    //this.controls.target = look;
 
 
     // Create the Crosshair
@@ -108,9 +108,26 @@ class TheScene extends THREE.Scene {
     this.spotLight.visible = controls.light1onoff;
     this.spotLight.intensity = controls.lightIntensity;
     this.robot.animateRobot(controls.headRotation, controls.bodyRotation, controls.robotExtension);
+
     this.fly.update();
   }
   
+  moveForwCamera () {
+    this.camera.position.z += 1;
+  }
+
+  moveBackCamera () {
+    this.camera.position.z -= 1;
+  }
+
+  moveLeftCamera () {
+    this.camera.position.x += 1;
+  }
+
+  moveRightCamera () {
+    this.camera.position.x -= 1;
+  }
+
   /// It returns the camera
   /**
    * @return The camera
@@ -124,7 +141,7 @@ class TheScene extends THREE.Scene {
    * @return The camera controls
    */
   getCameraControls () {
-    return this.trackballControls;
+    return this.controls;
   }
   
   /// It updates the aspect ratio of the camera

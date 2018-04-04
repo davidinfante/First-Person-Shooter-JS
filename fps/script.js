@@ -76,12 +76,30 @@ function setMessage (str) {
  * @param event - Mouse information
  */
 function onMouseDown (event) {
-  //if (event.ctrlKey) {
-    // The Trackballcontrol only works if Ctrl key is pressed
-    scene.getCameraControls().enabled = true;
-  /*} else {
-    scene.getCameraControls().enabled = false;
-  }*/
+  //  scene.getCameraControls().enabled = true;
+}
+
+/// It processes the clic-down of the mouse
+/**
+ * @param event - Mouse information
+ */
+function onKeyDown (event) {
+  var key = event.which;
+
+  switch(key) {
+    case 87:
+      scene.moveForwCamera();
+    break;
+    case 83:
+      scene.moveBackCamera();
+    break;
+    case 65:
+      scene.moveLeftCamera();
+    break;
+    case 68:
+      scene.moveRightCamera();
+    break;
+  }
 }
 
 /// It processes the wheel rolling of the mouse
@@ -89,12 +107,12 @@ function onMouseDown (event) {
  * @param event - Mouse information
  */
 function onMouseWheel (event) {
-  if (event.ctrlKey) {
+  /*if (event.ctrlKey) {
     // The Trackballcontrol only works if Ctrl key is pressed
     scene.getCameraControls().enabled = true;
   } else {
     scene.getCameraControls().enabled = false;
-  }
+  }*/
 }
 
 /// It processes the window size changes
@@ -135,6 +153,7 @@ $(function () {
   // liseners
   window.addEventListener ("resize", onWindowResize);
   window.addEventListener ("mousedown", onMouseDown, true);
+  window.addEventListener("keydown", onKeyDown, false);
   window.addEventListener ("mousewheel", onMouseWheel, true);   // For Chrome an others
   window.addEventListener ("DOMMouseScroll", onMouseWheel, true); // For Firefox
 
