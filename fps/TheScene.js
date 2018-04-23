@@ -14,9 +14,7 @@ class TheScene extends THREE.Scene {
     this.spotLight = null;
     this.camera = null;
     this.controls = null;
-    this.robot = null;
     this.ground = null;
-    this.fly = null;
     this.crosshair = null;
     this.createLights ();
     this.createCamera (renderer);
@@ -73,7 +71,7 @@ class TheScene extends THREE.Scene {
     this.add (this.spotLight);
   }
   
-  /// It creates the geometric model: robot and ground
+  /// It creates the geometric model: ground
   /**
    * @return The model
    */
@@ -81,12 +79,6 @@ class TheScene extends THREE.Scene {
     var loader = new THREE.TextureLoader();
     var textura = loader.load ("imgs/wood.jpg");
     var model = new THREE.Object3D();
-
-    this.fly = new FlyObj();
-    model.add (this.fly);
-
-    this.robot = new Robot();
-    //model.add (this.robot);
     
     this.ground = new Ground (200, 300, new THREE.MeshPhongMaterial ({map: textura}));
     model.add (this.ground);
@@ -98,7 +90,7 @@ class TheScene extends THREE.Scene {
   }
 
   
-  /// It sets the robot position according to the GUI
+  /// 
   /**
    * @controls - The GUI information
    */
@@ -106,9 +98,6 @@ class TheScene extends THREE.Scene {
     this.axis.visible = controls.axis;
     this.spotLight.visible = controls.light1onoff;
     this.spotLight.intensity = controls.lightIntensity;
-    this.robot.animateRobot(controls.headRotation, controls.bodyRotation, controls.robotExtension);
-
-    this.fly.update();
   }
   
   moveForwCamera () {
