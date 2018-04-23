@@ -79,9 +79,9 @@ function onMouseDown (event) {
   //  scene.getCameraControls().enabled = true;
 }
 
-/// It processes the clic-down of the mouse
+/// It processes keyboard information
 /**
- * @param event - Mouse information
+ * @param event - Keyboard information
  */
 function onKeyDown (event) {
   var key = event.which;
@@ -153,7 +153,7 @@ $(function () {
   // liseners
   window.addEventListener ("resize", onWindowResize);
   window.addEventListener ("mousedown", onMouseDown, true);
-  window.addEventListener("keydown", onKeyDown, false);
+  window.addEventListener("keydown", onKeyDown, true);
   window.addEventListener ("mousewheel", onMouseWheel, true);   // For Chrome an others
   window.addEventListener ("DOMMouseScroll", onMouseWheel, true); // For Firefox
 

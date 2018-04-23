@@ -54,7 +54,6 @@ class TheScene extends THREE.Scene {
     var crosshairPositionY = (crosshairPercentY / 100) * 2 - 1;
     crosshair.position.set((crosshairPercentX / 100) * 2 - 1, (crosshairPercentY / 100) * 2 - 1, -0.3);
 
-
     this.add(this.camera);
   }
   

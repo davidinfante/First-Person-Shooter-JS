@@ -8,7 +8,7 @@ class Crosshair extends THREE.Object3D {
   constructor () {
     super();
 
-    this.material = new THREE.LineBasicMaterial({ color: 0x23ff02 });;
+    this.material = new THREE.LineBasicMaterial({ color: 0x23ff02 });
 
     this.xLenght = 0.0005;
     this.yLenght = 0.009;
