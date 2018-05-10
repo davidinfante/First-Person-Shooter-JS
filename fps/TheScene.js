@@ -31,15 +31,21 @@ class TheScene extends THREE.Scene {
   createCamera (renderer) {
     this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
     this.camera.position.set (0, 7, -100);
-    //var look = new THREE.Vector3 (5, 7, 0);
-    //this.camera.lookAt(look);
 
-    this.controls = new THREE.TrackballControls (this.camera, renderer);
+    this.controls = new THREE.FirstPersonControls (this.camera, renderer);
+    this.controls.lookSpeed = 0.5;
+    this.controls.movementSpeed = 50;
+    this.controls.noFly = true;
+    this.controls.lookVertical = true;
+    this.controls.constrainVertical = true;
+    this.controls.verticalMin = 1.0;
+    this.controls.verticalMax = 2.0;
+    this.controls.lon = -150;
+    this.controls.lat = 120;
+    /*this.controls = new THREE.TrackballControls (this.camera, renderer);
     this.controls.rotateSpeed = 5;
     this.controls.zoomSpeed = -2;
-    this.controls.panSpeed = 0.5;
-    //this.controls.target = look;
-
+    this.controls.panSpeed = 0.5;*/
 
     // Create the Crosshair
     var crosshair = new Crosshair();
@@ -96,7 +102,7 @@ class TheScene extends THREE.Scene {
    */
   animate (controls) {
     this.axis.visible = controls.axis;
-    this.spotLight.visible = controls.light1onoff;
+    this.spotLight.visible = controls.lightonoff;
     this.spotLight.intensity = controls.lightIntensity;
   }
   

@@ -1,3 +1,5 @@
+
+
 THREE.PointerLockControls = function ( camera ) {
 
 	var scope = this;

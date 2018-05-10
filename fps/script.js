@@ -1,3 +1,7 @@
+/**
+ * @author David Infante, Jose Ariza
+ * 
+ */
 
 /// Several functions, including the main
 
@@ -13,6 +17,8 @@ stats = null;
 /// A boolean to know if the left button of the mouse is down
 mouseDown = false;
 
+
+clock = null;
 /// It creates the GUI and, optionally, adds statistic information
 /**
  * @param withStats - A boolean to show the statictics or not
@@ -20,7 +26,7 @@ mouseDown = false;
 function createGUI (withStats) {
   GUIcontrols = new function() {
     this.axis = false;
-    this.light1onoff = true;
+    this.lightonoff = true;
     this.lightIntensity = 0.5;
   }
 
@@ -28,8 +34,8 @@ function createGUI (withStats) {
 
   var axisLights = gui.addFolder ('Axis and Lights');
     axisLights.add(GUIcontrols, 'axis').name('Axis on/off :');
-    axisLights.add(GUIcontrols, 'light1onoff').name('Light1 on/off :');
-    axisLights.add(GUIcontrols, 'lightIntensity', 0, 1.0).name('Light1 intensity :');
+    axisLights.add(GUIcontrols, 'lightonoff').name('Light on/off :');
+    axisLights.add(GUIcontrols, 'lightIntensity', 0, 1.0).name('Light intensity :');
 
     if (withStats)
       stats = initStats();
@@ -67,32 +73,52 @@ function setMessage (str) {
 /**
  * @param event - Mouse information
  */
-function onMouseDown (event) {
-  //  scene.getCameraControls().enabled = true;
-}
+/*function onMouseDown (event) {
+  if (event.ctrlKey) {
+    // The Trackballcontrol only works if Ctrl key is pressed
+    scene.getCameraControls().enabled = true;
+  } else {
+    scene.getCameraControls().enabled = false;
+  }
+}*/
 
 /// It processes keyboard information
 /**
  * @param event - Keyboard information
  */
-function onKeyDown (event) {
+/*function onKeyDown (event) {
   var key = event.which;
 
   switch(key) {
     case 87:
-      scene.moveForwCamera();
+      scene.moveForwRobot();
     break;
     case 83:
-      scene.moveBackCamera();
+      scene.moveBackRobot();
     break;
     case 65:
-      scene.moveLeftCamera();
+      scene.moveLeftRobot();
     break;
     case 68:
-      scene.moveRightCamera();
+      scene.moveRightRobot();
+    break;
+    case 37:
+      scene.rotateRobot("L");
+    break;
+    case 39:
+      scene.rotateRobot("R");
+    break;
+    case 38:
+      scene.moveRobotTank("F");
+    break;
+    case 40:
+      scene.moveRobotTank("B");
+    break;
+    case 86:
+      scene.changeView();
     break;
   }
-}
+}*/
 
 /// It processes the wheel rolling of the mouse
 /**
@@ -130,9 +156,11 @@ function render() {
   requestAnimationFrame(render);
 
   stats.update();
-  scene.getCameraControls().update();
-  scene.animate(GUIcontrols);
 
+  var delta = clock.getDelta();
+
+  scene.getCameraControls().update(delta);
+  scene.animate(GUIcontrols);
   renderer.render(scene, scene.getCamera());
 }
 
@@ -144,13 +172,15 @@ $(function () {
   $("#WebGL-output").append(renderer.domElement);
   // liseners
   window.addEventListener ("resize", onWindowResize);
-  window.addEventListener ("mousedown", onMouseDown, true);
-  window.addEventListener("keydown", onKeyDown, true);
-  window.addEventListener ("mousewheel", onMouseWheel, true);   // For Chrome an others
-  window.addEventListener ("DOMMouseScroll", onMouseWheel, true); // For Firefox
+  //window.addEventListener ("mousedown", onMouseDown, true);
+  //window.addEventListener("keydown", onKeyDown, true);
+  //window.addEventListener ("mousewheel", onMouseWheel, true);   // For Chrome an others
+  //window.addEventListener ("DOMMouseScroll", onMouseWheel, true); // For Firefox
 
   // create a scene, that will hold all our elements such as objects, cameras and lights.
   scene = new TheScene (renderer.domElement);
+
+  clock = new THREE.Clock();
 
   createGUI(true);
 
