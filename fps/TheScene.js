@@ -1,4 +1,3 @@
-//HOLA DAVID
 /// The Model Facade class. The root node of the graph.
 /**
  * @param renderer - The renderer to visualize the scene
@@ -15,6 +14,7 @@ class TheScene extends THREE.Scene {
     this.camera = null;
     this.controls = null;
     this.ground = null;
+    this.skybox = null;
     this.crosshair = null;
     this.fly = [];
     this.launched = [];
@@ -49,10 +49,6 @@ class TheScene extends THREE.Scene {
     this.controls.verticalMax = 2.0;
     this.controls.lon = -150;
     this.controls.lat = 120;
-    /*this.controls = new THREE.TrackballControls (this.camera, renderer);
-    this.controls.rotateSpeed = 5;
-    this.controls.zoomSpeed = -2;
-    this.controls.panSpeed = 0.5;*/
 
     // Create the Crosshair
     var crosshair = new Crosshair();
@@ -104,7 +100,6 @@ class TheScene extends THREE.Scene {
       this.add(this.fly[i]);
     }
 
-
     this.ground = new Ground (200, 300, new THREE.MeshPhongMaterial ({map: textura}));
     model.add (this.ground);
 
@@ -114,7 +109,8 @@ class TheScene extends THREE.Scene {
     this.avatar = new Avatar(this.camera, this.controls);
     model.add(this.avatar);
 
-
+    this.skybox = new Skybox();
+    model.add(this.skybox);
 
     return model;
   }
