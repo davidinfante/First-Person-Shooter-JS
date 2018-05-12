@@ -17,11 +17,8 @@ class TheScene extends THREE.Scene {
     this.skybox = null;
     this.crosshair = null;
     this.fly = [];
-    this.launched = [];
-    for(var i=0; i<10; ++i){
-      this.launched[i] = false;
-    }
     this.index = 0;
+    this.maxBullets = 10;
     this.avatar = null;
     this.createLights ();
     this.createCamera (renderer);
@@ -65,9 +62,13 @@ class TheScene extends THREE.Scene {
   }
 
   dispara() {
+    if(this.index>=this.maxBullets) this.index = 0;
     this.fly[this.index].dispara(this.avatar.getPosition(), this.controls.getTarget());
-    this.launched[this.index] = true;
     this.index++;
+  }
+
+  jump(){
+    this.avatar.setJumping();
   }
   
   /// It creates lights and adds them to the graph
@@ -95,7 +96,7 @@ class TheScene extends THREE.Scene {
     var textura = loader.load ("imgs/wood.jpg");
     var model = new THREE.Object3D();
     
-    for(var i=0; i<10; i++){
+    for(var i=0; i<this.maxBullets; i++){
       this.fly[i] = new FlyObj();
       this.add(this.fly[i]);
     }
@@ -125,31 +126,30 @@ class TheScene extends THREE.Scene {
     this.spotLight.visible = controls.lightonoff;
     this.spotLight.intensity = controls.lightIntensity;
 
-    for(var i=0; i<10; ++i){
-      if(this.launched[i])
+    for(var i=0; i<this.maxBullets; ++i){
+      if(this.fly[i].getLaunched())
         this.fly[i].update();
     }
+    if(this.avatar.getJumping())
+      this.avatar.jump();
   }
   
-  moveForwCamera () {
-    this.camera.position.z += 0;
+  moveForward () {
+    this.avatar.moveForward();
   }
 
-  moveBackCamera () {
-    this.camera.position.z -= 1;
+  moveBackward () {
+    this.avatar.moveBackward();
   }
 
-  moveLeftCamera () {
-    this.camera.position.x += 1;
+  moveLeft () {
+    this.avatar.moveLeft();
   }
 
-  moveRightCamera () {
-    this.camera.position.x -= 1;
+  moveRight () {
+    this.avatar.moveRight();
   }
 
-  moveAvatar(){
-    this.avatar.moveAvatar();
-  }
 
   /// It returns the camera
   /**

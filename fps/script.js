@@ -19,6 +19,7 @@ stats = null;
 mouseDown = false;
 
 
+
 clock = null;
 /// It creates the GUI and, optionally, adds statistic information
 /**
@@ -74,14 +75,13 @@ function setMessage (str) {
 /**
  * @param event - Mouse information
  */
-/*function onMouseDown (event) {
-  if (event.ctrlKey) {
-    // The Trackballcontrol only works if Ctrl key is pressed
-    scene.getCameraControls().enabled = true;
-  } else {
-    scene.getCameraControls().enabled = false;
-  }
-}*/
+function onMouseDown (event) {
+  console.log(event)
+  if(event.buttons == 1)
+    scene.dispara();
+  else if(event.buttons == 2)
+    scene.jump();
+}
 
 /// It processes keyboard information
 /**
@@ -92,36 +92,20 @@ function onKeyDown (event) {
 
   switch(key) {
     case 87:
-      scene.moveAvatar();
+      scene.moveForward();
     break;
-  
     case 83:
-      scene.dispara();
+      scene.moveBackward();
     break;
-  } /*
     case 65:
-      scene.moveLeftRobot();
+      scene.moveLeft();
     break;
     case 68:
-      scene.moveRightRobot();
+      scene.moveRight();
     break;
-    case 37:
-      scene.rotateRobot("L");
-    break;
-    case 39:
-      scene.rotateRobot("R");
-    break;
-    case 38:
-      scene.moveRobotTank("F");
-    break;
-    case 40:
-      scene.moveRobotTank("B");
-    break;
-    case 86:
-      scene.changeView();
-    break;
-  }*/
+  }
 }
+
 
 /// It processes the wheel rolling of the mouse
 /**
@@ -175,7 +159,7 @@ $(function () {
   $("#WebGL-output").append(renderer.domElement);
   // liseners
   window.addEventListener ("resize", onWindowResize);
-  //window.addEventListener ("mousedown", onMouseDown, true);
+  window.addEventListener ("mousedown", onMouseDown, true);
   window.addEventListener("keydown", onKeyDown, true);
   //window.addEventListener ("mousewheel", onMouseWheel, true);   // For Chrome an others
   //window.addEventListener ("DOMMouseScroll", onMouseWheel, true); // For Firefox
