@@ -16,6 +16,12 @@ class TheScene extends THREE.Scene {
     this.controls = null;
     this.ground = null;
     this.crosshair = null;
+    this.fly = [];
+    this.launched = [];
+    for(var i=0; i<10; ++i){
+      this.launched[i] = false;
+    }
+    this.index = 0;
     this.avatar = null;
     this.createLights ();
     this.createCamera (renderer);
@@ -61,6 +67,12 @@ class TheScene extends THREE.Scene {
 
     //this.add(this.camera);
   }
+
+  dispara() {
+    this.fly[this.index].dispara(this.avatar.getPosition(), this.controls.getTarget());
+    this.launched[this.index] = true;
+    this.index++;
+  }
   
   /// It creates lights and adds them to the graph
   createLights () {
@@ -87,6 +99,12 @@ class TheScene extends THREE.Scene {
     var textura = loader.load ("imgs/wood.jpg");
     var model = new THREE.Object3D();
     
+    for(var i=0; i<10; i++){
+      this.fly[i] = new FlyObj();
+      this.add(this.fly[i]);
+    }
+
+
     this.ground = new Ground (200, 300, new THREE.MeshPhongMaterial ({map: textura}));
     model.add (this.ground);
 
@@ -110,6 +128,11 @@ class TheScene extends THREE.Scene {
     this.axis.visible = controls.axis;
     this.spotLight.visible = controls.lightonoff;
     this.spotLight.intensity = controls.lightIntensity;
+
+    for(var i=0; i<10; ++i){
+      if(this.launched[i])
+        this.fly[i].update();
+    }
   }
   
   moveForwCamera () {
@@ -129,7 +152,6 @@ class TheScene extends THREE.Scene {
   }
 
   moveAvatar(){
-    console.log("ENTRO");
     this.avatar.moveAvatar();
   }
 

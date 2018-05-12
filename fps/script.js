@@ -94,10 +94,11 @@ function onKeyDown (event) {
     case 87:
       scene.moveAvatar();
     break;
-  }/*
+  
     case 83:
-      scene.moveBackRobot();
+      scene.dispara();
     break;
+  } /*
     case 65:
       scene.moveLeftRobot();
     break;

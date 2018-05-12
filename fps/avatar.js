@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-//Hola David
-=======
->>>>>>> f15a152c66a078841233ad643cab3c7bf46220e5
 /// The Avatar class
 /**
  * @author David Infante, Jose Ariza
@@ -19,10 +15,19 @@ class Avatar extends THREE.Object3D {
         this.controls = controls;
     }
 
+    getPosition() {
+        var pos = new THREE.Vector3();
+        pos.x = this.position.x;
+        pos.y = 7;
+        pos.z = this.position.z;
+        return pos;
+    }
+
     moveAvatar(){
         var target = this.controls.getTarget();
         this.position.x += target.x/100;
         this.position.z += target.z/100;
+        //this.position.y += target.y/100;
     }
 
 }

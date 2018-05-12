@@ -11,6 +11,7 @@
 
         this.object = object;
         this.target = new THREE.Vector3( 0, 0, 0 );
+        this.delta = null;
 
         this.domElement = ( domElement !== undefined ) ? domElement : document;
         
@@ -65,6 +66,10 @@
 
         this.getTarget = function() {
             return this.targetPosition;
+        }
+
+        this.getDelta = function() {
+            return this.delta;
         }
 
         this.handleResize = function () {
@@ -200,6 +205,7 @@
         };
 
         this.update = function( delta ) {
+            this.delta = delta;
             /*
             if ( this.enabled === false ) return;
 
