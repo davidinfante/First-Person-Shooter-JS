@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 //Hola David
+=======
+>>>>>>> f15a152c66a078841233ad643cab3c7bf46220e5
 /// The Avatar class
 /**
  * @author David Infante, Jose Ariza
