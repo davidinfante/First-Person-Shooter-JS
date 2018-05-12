@@ -86,13 +86,14 @@ function setMessage (str) {
 /**
  * @param event - Keyboard information
  */
-/*function onKeyDown (event) {
+function onKeyDown (event) {
   var key = event.which;
 
   switch(key) {
     case 87:
-      scene.moveForwRobot();
+      scene.moveAvatar();
     break;
+  }/*
     case 83:
       scene.moveBackRobot();
     break;
@@ -117,8 +118,8 @@ function setMessage (str) {
     case 86:
       scene.changeView();
     break;
-  }
-}*/
+  }*/
+}
 
 /// It processes the wheel rolling of the mouse
 /**
@@ -173,7 +174,7 @@ $(function () {
   // liseners
   window.addEventListener ("resize", onWindowResize);
   //window.addEventListener ("mousedown", onMouseDown, true);
-  //window.addEventListener("keydown", onKeyDown, true);
+  window.addEventListener("keydown", onKeyDown, true);
   //window.addEventListener ("mousewheel", onMouseWheel, true);   // For Chrome an others
   //window.addEventListener ("DOMMouseScroll", onMouseWheel, true); // For Firefox
 

@@ -16,6 +16,7 @@ class TheScene extends THREE.Scene {
     this.controls = null;
     this.ground = null;
     this.crosshair = null;
+    this.avatar = null;
     this.createLights ();
     this.createCamera (renderer);
     this.axis = new THREE.AxisHelper (25);
@@ -30,7 +31,7 @@ class TheScene extends THREE.Scene {
    */
   createCamera (renderer) {
     this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    this.camera.position.set (0, 7, -100);
+    this.camera.position.set (0, 10, 0);
 
     this.controls = new THREE.FirstPersonControls (this.camera, renderer);
     this.controls.lookSpeed = 0.5;
@@ -58,7 +59,7 @@ class TheScene extends THREE.Scene {
     var crosshairPositionY = (crosshairPercentY / 100) * 2 - 1;
     crosshair.position.set((crosshairPercentX / 100) * 2 - 1, (crosshairPercentY / 100) * 2 - 1, -0.3);
 
-    this.add(this.camera);
+    //this.add(this.camera);
   }
   
   /// It creates lights and adds them to the graph
@@ -92,6 +93,11 @@ class TheScene extends THREE.Scene {
     this.crosshair = new Crosshair();
     model.add( this.crosshair );
 
+    this.avatar = new Avatar(this.camera, this.controls);
+    model.add(this.avatar);
+
+
+
     return model;
   }
 
@@ -107,7 +113,7 @@ class TheScene extends THREE.Scene {
   }
   
   moveForwCamera () {
-    this.camera.position.z += 1;
+    this.camera.position.z += 0;
   }
 
   moveBackCamera () {
@@ -120,6 +126,11 @@ class TheScene extends THREE.Scene {
 
   moveRightCamera () {
     this.camera.position.x -= 1;
+  }
+
+  moveAvatar(){
+    console.log("ENTRO");
+    this.avatar.moveAvatar();
   }
 
   /// It returns the camera
