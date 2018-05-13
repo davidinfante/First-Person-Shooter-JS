@@ -19,7 +19,7 @@ class TheScene extends Physijs.Scene {
     this.crosshair = null;
     this.Bullets = null;
     this.index = 0;
-    this.maxBullets = 10;
+    this.maxBullets = 20;
     this.avatar = null;
     this.createLights ();
     this.createCamera (renderer);
@@ -27,7 +27,7 @@ class TheScene extends Physijs.Scene {
     this.add (this.axis);
     this.model = this.createModel ();
     this.add (this.model);
-    this.createPhyModel();
+
 
   }
   
@@ -37,7 +37,7 @@ class TheScene extends Physijs.Scene {
    */
   createCamera (renderer) {
     this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    this.camera.position.set (0, 10, 0);
+    this.camera.position.set (0, 5, 0);
     var look = new THREE.Vector3 (8,8,8);
     this.camera.lookAt(look);
 
@@ -74,13 +74,13 @@ class TheScene extends Physijs.Scene {
   }
 
   dispara() {
-    if(this.index>=this.maxBullets) this.index = 0;
-    this.bullets.dispara(this.index, this.avatar.getPosition(), this.controls.getTarget());
+    if(this.index >= this.maxBullets) this.index = 0;
+    this.bullets.dispara(this.index, this.avatar.getPosition(), this.controls.getTarget(), this.camera.position.y);
     this.index++;
   }
 
   jump(){
-    this.avatar.setJumping();
+    this.avatar.jump();
   }
   
   /// It creates lights and adds them to the graph
@@ -116,30 +116,23 @@ class TheScene extends Physijs.Scene {
     this.skybox = new Skybox();
     model.add(this.skybox);
 
-    return model;
-  }
-
-
-  createPhyModel() {
     var loader = new THREE.TextureLoader();
     var textura = loader.load ("imgs/wood.jpg");
 
     this.bullets = new Bullets(this.maxBullets, this, (new THREE.MeshPhongMaterial ({map: textura})));
 
-    var box = new Physijs.BoxMesh(new THREE.CubeGeometry( 5, 5, 5 ));
-    box.position.x = 0;
-    box.position.y = 20;
-    box.position.z = 20;
-    this.add(box);
-
     //Creates the map
     var loader = new THREE.TextureLoader();
     var textura = loader.load ("imgs/wood.jpg");
-    this.map = new Map(new THREE.MeshPhongMaterial ({map: textura}), 0);
+    var mat = Physijs.createMaterial(new THREE.MeshPhongMaterial ({map: textura}),1,0);
+    this.map = new Map(mat, 0);
     for (var i = 0; i < this.map.getMapSize(); ++i) {
       this.add(this.map.getMap(i));
     }
+
+    return model;
   }
+
 
   
   /// 
@@ -156,8 +149,10 @@ class TheScene extends Physijs.Scene {
       if(this.bullets.getLaunched(i))
         this.bullets.update(i);
     }
+    /*
     if(this.avatar.getJumping())
       this.avatar.jump();
+      */
   }
   
   moveForward () {

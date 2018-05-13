@@ -7,22 +7,24 @@ class Avatar {
 
     constructor(camera, controls, scene) {
 
-        this.avatar = new Physijs.CylinderMesh (new THREE.CylinderGeometry (5, 5, 10, 16, 8), 0xFFFFFF, 1);
-        this.avatar.position.y = 20;
+        var mat = Physijs.createMaterial(new THREE.MeshPhongMaterial ({color: 0x000000}),1,0);
+        this.avatar = new Physijs.CylinderMesh (new THREE.CylinderGeometry (5, 5, 5, 16, 8), mat , 10);
+        this.avatar.position.y = 5;
         this.avatar.__dirtyPosition = true;
         scene.add(this.avatar);
-        this.avatar.add(camera);
+        this.camera = camera;
+
+        var loader = new THREE.OBJLoader();
+        loader.load('/models/m4a1.obj', function (objetct){ 
+            object.position.x = 20;
+            object.position.y = 20;
+            object.position.y = 10;
+            scene.add(object)});
+
+        this.avatar.add(this.camera);
         this.controls = controls;
         this.jumping = false;
 
-    }
-
-    getJumping() {
-        return this.jumping;
-    }
-
-    setJumping() {
-        this.jumping = true;
     }
 
     getPosition() {
@@ -34,14 +36,20 @@ class Avatar {
     }
 
     jump() {
+        /*
         console.log("SALTANDO");
         if(this.jumping){
             if(this.avatar.position.y > 20)
                 this.jumping = false;
             else
                 this.avatar.position.y += 1;
+
         }
         this.avatar.__dirtyPosition = true;
+        */
+        console.log("ENTRO");
+        var fuerza = new THREE.Vector3(0, 150, 0);
+        this.avatar.applyCentralImpulse( fuerza );
     }
 
     moveForward() {
@@ -49,7 +57,6 @@ class Avatar {
         this.avatar.position.x += target.x/100;
         this.avatar.position.z += target.z/100;
         this.avatar.__dirtyPosition = true;
-        console.log(this.avatar.position.x);
     }
 
     moveBackward() {

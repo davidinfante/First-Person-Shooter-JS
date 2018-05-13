@@ -30,6 +30,19 @@ class Map {
     ++this.map_size;
 
     //More parts of the map
+    var objetivo = new Physijs.BoxMesh (new THREE.BoxGeometry (5, 10, 5, 1, 1, 1), this.material, mass);
+    objetivo.applyMatrix (new THREE.Matrix4().makeTranslation (0,5.5,200));
+    objetivo.receiveShadow = true;
+    objetivo.autoUpdateMatrix = false;
+    this.map.push(objetivo);
+    ++this.map_size;
+
+    objetivo.addEventListener ( 'collision' , function (elOtroObjeto , velocidad , rotacion , normal) { 
+      var sound = new Howl({
+        src: ['animals020.mp3'], volume: 0.8
+      });
+      sound.play();
+    }) ;
 
     return this;
   }
