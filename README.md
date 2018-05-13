@@ -2,7 +2,7 @@
 
 ## I have only tried a few things yet, it's far from being done
 
-### Trying to make a simple FPS game with JavaScript and THREE.js
+### A simple FPS game with JavaScript using THREE.js, Physijs...
 
 ## How to use it in Windows
 
