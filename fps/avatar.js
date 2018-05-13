@@ -14,12 +14,20 @@ class Avatar {
         scene.add(this.avatar);
         this.camera = camera;
 
-        var loader = new THREE.OBJLoader();
-        loader.load('/models/m4a1.obj', function (objetct){ 
-            object.position.x = 20;
-            object.position.y = 20;
-            object.position.y = 10;
-            scene.add(object)});
+        this.camera.name = "cam";
+
+        var objLoader = new THREE.OBJLoader();
+        objLoader.load( "models/m4a1_s.obj", function ( object ) {
+            object.scale.x = 0.2;
+            object.scale.y = 0.2;
+            object.scale.z = 0.2;
+            object.rotation.y = 3.14/2;
+            object.position.x = 0;
+            object.position.y = 8;
+            object.position.z = 12;
+            var camera = scene.getObjectByName( "cam", true);
+            camera.add( object );
+        });
 
         this.avatar.add(this.camera);
         this.controls = controls;
