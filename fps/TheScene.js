@@ -3,17 +3,18 @@
  * @param renderer - The renderer to visualize the scene
  */
  
-class TheScene extends THREE.Scene {
+class TheScene extends Physijs.Scene {
   
   constructor (renderer) {
     super();
-    
+    this.setGravity(new THREE.Vector3 (0, -10, 0));
+
     // Attributes
     this.ambientLight = null;
     this.spotLight = null;
     this.camera = null;
     this.controls = null;
-    this.ground = null;
+    this.map = null;
     this.skybox = null;
     this.crosshair = null;
     this.fly = [];
@@ -26,6 +27,21 @@ class TheScene extends THREE.Scene {
     this.add (this.axis);
     this.model = this.createModel ();
     this.add (this.model);
+
+    var box = new Physijs.BoxMesh(new THREE.CubeGeometry( 5, 5, 5 ));
+    box.position.x = 0;
+    box.position.y = 20;
+    box.position.z = 20;
+    this.add(box);
+
+    //Creates the map
+    var loader = new THREE.TextureLoader();
+    var textura = loader.load ("imgs/wood.jpg");
+    this.map = new Map(new THREE.MeshPhongMaterial ({map: textura}), 0);
+    for (var i = 0; i < this.map.getMapSize(); ++i) {
+      this.add(this.map.getMap(i));
+    }
+
   }
   
   /// It creates the camera and adds it to the graph
@@ -35,9 +51,17 @@ class TheScene extends THREE.Scene {
   createCamera (renderer) {
     this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
     this.camera.position.set (0, 10, 0);
+    var look = new THREE.Vector3 (0,10,5);
+    this.camera.lookAt(look);
+
+    /*this.controls = new THREE.TrackballControls (this.camera, renderer);
+    this.controls.rotateSpeed = 5;
+    this.controls.zoomSpeed = -2;
+    this.controls.panSpeed = 0.5;
+    this.controls.target = look;*/
 
     this.controls = new THREE.FirstPersonControls (this.camera, renderer);
-    this.controls.lookSpeed = 0.5;
+    this.controls.lookSpeed = 0.1;
     this.controls.movementSpeed = 50;
     this.controls.noFly = true;
     this.controls.lookVertical = true;
@@ -46,6 +70,7 @@ class TheScene extends THREE.Scene {
     this.controls.verticalMax = 2.0;
     this.controls.lon = -150;
     this.controls.lat = 120;
+    this.controls.target = look;
 
     // Create the Crosshair
     var crosshair = new Crosshair();
@@ -79,7 +104,8 @@ class TheScene extends THREE.Scene {
     
     // add spotlight for the shadows
     this.spotLight = new THREE.SpotLight( 0xffffff );
-    this.spotLight.position.set( 60, 60, 40 );
+    this.spotLight.position.set( 0, 500, 1000 );
+    this.spotLight.intensity = 1;
     this.spotLight.castShadow = true;
     // the shadow resolution
     this.spotLight.shadow.mapSize.width=2048;
@@ -92,17 +118,12 @@ class TheScene extends THREE.Scene {
    * @return The model
    */
   createModel () {
-    var loader = new THREE.TextureLoader();
-    var textura = loader.load ("imgs/wood.jpg");
     var model = new THREE.Object3D();
     
-    for(var i=0; i<this.maxBullets; i++){
+    for(var i = 0; i < this.maxBullets; i++){
       this.fly[i] = new FlyObj();
       this.add(this.fly[i]);
     }
-
-    this.ground = new Ground (200, 300, new THREE.MeshPhongMaterial ({map: textura}));
-    model.add (this.ground);
 
     this.crosshair = new Crosshair();
     model.add( this.crosshair );
@@ -122,6 +143,7 @@ class TheScene extends THREE.Scene {
    * @controls - The GUI information
    */
   animate (controls) {
+    this.simulate();
     this.axis.visible = controls.axis;
     this.spotLight.visible = controls.lightonoff;
     this.spotLight.intensity = controls.lightIntensity;

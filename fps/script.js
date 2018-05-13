@@ -18,9 +18,10 @@ stats = null;
 /// A boolean to know if the left button of the mouse is down
 mouseDown = false;
 
-
-
 clock = null;
+
+renderer = null;
+
 /// It creates the GUI and, optionally, adds statistic information
 /**
  * @param withStats - A boolean to show the statictics or not
@@ -29,7 +30,7 @@ function createGUI (withStats) {
   GUIcontrols = new function() {
     this.axis = false;
     this.lightonoff = true;
-    this.lightIntensity = 0.5;
+    this.lightIntensity = 1;
   }
 
   var gui = new dat.GUI();
@@ -112,12 +113,7 @@ function onKeyDown (event) {
  * @param event - Mouse information
  */
 function onMouseWheel (event) {
-  /*if (event.ctrlKey) {
-    // The Trackballcontrol only works if Ctrl key is pressed
-    scene.getCameraControls().enabled = true;
-  } else {
-    scene.getCameraControls().enabled = false;
-  }*/
+
 }
 
 /// It processes the window size changes
@@ -149,10 +145,14 @@ function render() {
   scene.getCameraControls().update(delta);
   scene.animate(GUIcontrols);
   renderer.render(scene, scene.getCamera());
+  scene.simulate();
 }
 
 /// The main function
 $(function () {
+  'use strict';
+  Physijs.scripts.worker = '../libs/physijs_worker.js';
+  Physijs.scripts.ammo = '../libs/ammo.js';
   // create a render and set the size
   renderer = createRenderer();
   // add the output of the renderer to the html element
@@ -161,8 +161,6 @@ $(function () {
   window.addEventListener ("resize", onWindowResize);
   window.addEventListener ("mousedown", onMouseDown, true);
   window.addEventListener("keydown", onKeyDown, true);
-  //window.addEventListener ("mousewheel", onMouseWheel, true);   // For Chrome an others
-  //window.addEventListener ("DOMMouseScroll", onMouseWheel, true); // For Firefox
 
   // create a scene, that will hold all our elements such as objects, cameras and lights.
   scene = new TheScene (renderer.domElement);
