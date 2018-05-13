@@ -68,6 +68,7 @@ class Avatar extends THREE.Object3D {
         var target = this.controls.getTarget();
         this.position.x += target.x/100;
         this.position.z += target.z/100;
+        consosle.log(this.position.x);
     }
 
     moveBackward() {

@@ -77,7 +77,6 @@ function setMessage (str) {
  * @param event - Mouse information
  */
 function onMouseDown (event) {
-  console.log(event)
   if(event.buttons == 1)
     scene.dispara();
   else if(event.buttons == 2)

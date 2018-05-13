@@ -17,7 +17,7 @@ class TheScene extends Physijs.Scene {
     this.map = null;
     this.skybox = null;
     this.crosshair = null;
-    this.fly = [];
+    this.Bullets = null;
     this.index = 0;
     this.maxBullets = 10;
     this.avatar = null;
@@ -27,20 +27,7 @@ class TheScene extends Physijs.Scene {
     this.add (this.axis);
     this.model = this.createModel ();
     this.add (this.model);
-
-    var box = new Physijs.BoxMesh(new THREE.CubeGeometry( 5, 5, 5 ));
-    box.position.x = 0;
-    box.position.y = 20;
-    box.position.z = 20;
-    this.add(box);
-
-    //Creates the map
-    var loader = new THREE.TextureLoader();
-    var textura = loader.load ("imgs/wood.jpg");
-    this.map = new Map(new THREE.MeshPhongMaterial ({map: textura}), 0);
-    for (var i = 0; i < this.map.getMapSize(); ++i) {
-      this.add(this.map.getMap(i));
-    }
+    this.createPhyModel();
 
   }
   
@@ -51,7 +38,7 @@ class TheScene extends Physijs.Scene {
   createCamera (renderer) {
     this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
     this.camera.position.set (0, 10, 0);
-    var look = new THREE.Vector3 (0,10,5);
+    var look = new THREE.Vector3 (8,8,8);
     this.camera.lookAt(look);
 
     /*this.controls = new THREE.TrackballControls (this.camera, renderer);
@@ -88,7 +75,7 @@ class TheScene extends Physijs.Scene {
 
   dispara() {
     if(this.index>=this.maxBullets) this.index = 0;
-    this.fly[this.index].dispara(this.avatar.getPosition(), this.controls.getTarget());
+    this.bullets.dispara(this.index, this.avatar.getPosition(), this.controls.getTarget());
     this.index++;
   }
 
@@ -119,11 +106,6 @@ class TheScene extends Physijs.Scene {
    */
   createModel () {
     var model = new THREE.Object3D();
-    
-    for(var i = 0; i < this.maxBullets; i++){
-      this.fly[i] = new FlyObj();
-      this.add(this.fly[i]);
-    }
 
     this.crosshair = new Crosshair();
     model.add( this.crosshair );
@@ -135,6 +117,28 @@ class TheScene extends Physijs.Scene {
     model.add(this.skybox);
 
     return model;
+  }
+
+
+  createPhyModel() {
+    var loader = new THREE.TextureLoader();
+    var textura = loader.load ("imgs/wood.jpg");
+
+    this.bullets = new Bullets(this.maxBullets, this, (new THREE.MeshPhongMaterial ({map: textura})));
+
+    var box = new Physijs.BoxMesh(new THREE.CubeGeometry( 5, 5, 5 ));
+    box.position.x = 0;
+    box.position.y = 20;
+    box.position.z = 20;
+    this.add(box);
+
+    //Creates the map
+    var loader = new THREE.TextureLoader();
+    var textura = loader.load ("imgs/wood.jpg");
+    this.map = new Map(new THREE.MeshPhongMaterial ({map: textura}), 0);
+    for (var i = 0; i < this.map.getMapSize(); ++i) {
+      this.add(this.map.getMap(i));
+    }
   }
 
   
@@ -149,8 +153,8 @@ class TheScene extends Physijs.Scene {
     this.spotLight.intensity = controls.lightIntensity;
 
     for(var i=0; i<this.maxBullets; ++i){
-      if(this.fly[i].getLaunched())
-        this.fly[i].update();
+      if(this.bullets.getLaunched(i))
+        this.bullets.update(i);
     }
     if(this.avatar.getJumping())
       this.avatar.jump();
