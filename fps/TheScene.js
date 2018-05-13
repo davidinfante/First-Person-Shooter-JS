@@ -110,8 +110,8 @@ class TheScene extends Physijs.Scene {
     this.crosshair = new Crosshair();
     model.add( this.crosshair );
 
-    this.avatar = new Avatar(this.camera, this.controls);
-    model.add(this.avatar);
+    this.avatar = new Avatar(this.camera, this.controls, this);
+    //model.add(this.avatar);
 
     this.skybox = new Skybox();
     model.add(this.skybox);

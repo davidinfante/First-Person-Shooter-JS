@@ -3,30 +3,17 @@
  * @author David Infante, Jose Ariza
  * 
  */
-class Avatar extends THREE.Object3D {
+class Avatar {
 
-    constructor(camera, controls) {
-        super();
+    constructor(camera, controls, scene) {
 
         this.avatar = new Physijs.CylinderMesh (new THREE.CylinderGeometry (5, 5, 10, 16, 8), 0xFFFFFF, 1);
-        this.avatar.geometry.applyMatrix (new THREE.Matrix4().makeTranslation (0, 5, 0));
-        this.add(this.avatar);
-        this.add(camera);
+        this.avatar.position.y = 20;
+        this.avatar.__dirtyPosition = true;
+        scene.add(this.avatar);
+        this.avatar.add(camera);
         this.controls = controls;
         this.jumping = false;
-        this.goingUp = true;
-
-        var objLoader = new THREE.OBJLoader();
-        objLoader.load( "models/m4a1_s.obj", function ( object ) {
-            object.scale.x = 0.2;
-            object.scale.y = 0.2;
-            object.scale.z = 0.2;
-            object.rotation.y = 3.14/2;
-            object.position.x = 0;
-            object.position.y = 8;
-            object.position.z = 12;
-            scene.add( object );
-        });
 
     }
 
@@ -40,53 +27,50 @@ class Avatar extends THREE.Object3D {
 
     getPosition() {
         var pos = new THREE.Vector3();
-        pos.x = this.position.x;
-        pos.y = this.position.y;
-        pos.z = this.position.z;
+        pos.x = this.avatar.position.x;
+        pos.y = this.avatar.position.y;
+        pos.z = this.avatar.position.z;
         return pos;
     }
 
     jump() {
         console.log("SALTANDO");
-        if(this.goingUp){
-            if(this.position.y > 20)
-                this.goingUp = false;
-            else
-                this.position.y += 1;
-        }
-        else{
-            if(this.position.y == 0){
+        if(this.jumping){
+            if(this.avatar.position.y > 20)
                 this.jumping = false;
-                this.goingUp = true;
-            }
             else
-                this.position.y -= 1;
+                this.avatar.position.y += 1;
         }
+        this.avatar.__dirtyPosition = true;
     }
 
     moveForward() {
         var target = this.controls.getTarget();
-        this.position.x += target.x/100;
-        this.position.z += target.z/100;
-        consosle.log(this.position.x);
+        this.avatar.position.x += target.x/100;
+        this.avatar.position.z += target.z/100;
+        this.avatar.__dirtyPosition = true;
+        console.log(this.avatar.position.x);
     }
 
     moveBackward() {
         var target = this.controls.getTarget();
-        this.position.x += -target.x/100;
-        this.position.z += -target.z/100;
+        this.avatar.position.x += -target.x/100;
+        this.avatar.position.z += -target.z/100;
+        this.avatar.__dirtyPosition = true;
     }
 
     moveLeft() {
         var target = this.controls.getTarget();
-        this.position.x += target.z/100;
-        this.position.z += -target.x/100;
+        this.avatar.position.x += target.z/100;
+        this.avatar.position.z += -target.x/100;
+        this.avatar.__dirtyPosition = true;
     }
 
     moveRight() {
         var target = this.controls.getTarget();
-        this.position.x += -target.z/100;
-        this.position.z += target.x/100;
+        this.avatar.position.x += -target.z/100;
+        this.avatar.position.z += target.x/100;
+        this.avatar.__dirtyPosition = true;
     }
         
 

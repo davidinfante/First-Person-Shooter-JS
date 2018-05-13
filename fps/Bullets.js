@@ -36,10 +36,10 @@ class Bullets {
     }
 
     createObject() {
-        var bullet = new Physijs.SphereMesh(new THREE.SphereGeometry(this.objWidth/2, 20,20), this.material, 0);
+        var bullet = new Physijs.SphereMesh(new THREE.SphereGeometry(this.objWidth/2, 20,20), this.material);
         bullet.position.x = 1;
         bullet.position.y = 5;
-        bullet.position.z = -100;
+        bullet.position.z = -50;
         bullet.castShadow = true;
         return bullet;
     }
@@ -62,19 +62,20 @@ class Bullets {
 
     update(i) {
         console.log("ENTRO");
-        this.bullets[i].position.x += this.target[i].x/10;
-        this.bullets[i].position.y += this.target[i].y/10;
-        this.bullets[i].position.z += this.target[i].z/10;
+        //this.bullets[i].position.x += this.target[i].x/10;
+        //this.bullets[i].position.y += this.target[i].y/10;
+        this.bullets[i].position.z -= 0.1;
         /*
         if(this.bullets[i].position.x > 100 || this.bullets[i].position.x < -100 || this.bullets[i].position.z > 100 || this.bullets[i].position.z < -100 || 
             this.bullets[i].position.y > 100 || this.bullets[i].position.y < this.bullets[i].objWidth/2){
                 console.log("RESETEO");
             this.launched[i] = false;
             this.setInitPosition(i);
-        }*/
+        }
         console.log(this.bullets[i].position.x);
         console.log(this.bullets[i].position.y);
         console.log(this.bullets[i].position.z);
+        */
 
     }
 }
