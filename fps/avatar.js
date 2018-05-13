@@ -5,7 +5,7 @@
  */
 class Avatar {
 
-    constructor(camera, controls, scene) {
+    constructor(camera, scene) {
 
         var mat = Physijs.createMaterial(new THREE.MeshPhongMaterial ({color: 0x000000}),1,0);
         this.avatar = new Physijs.CylinderMesh (new THREE.CylinderGeometry (5, 5, 5, 16, 8), mat , 10);
@@ -30,7 +30,6 @@ class Avatar {
         });
 
         this.avatar.add(this.camera);
-        this.controls = controls;
         this.jumping = false;
 
     }
@@ -61,30 +60,30 @@ class Avatar {
     }
 
     moveForward() {
-        var target = this.controls.getTarget();
-        this.avatar.position.x += target.x/100;
-        this.avatar.position.z += target.z/100;
+        var target = this.camera.getWorldDirection();
+        this.avatar.position.x += target.x;
+        this.avatar.position.z += target.z;
         this.avatar.__dirtyPosition = true;
     }
 
     moveBackward() {
-        var target = this.controls.getTarget();
-        this.avatar.position.x += -target.x/100;
-        this.avatar.position.z += -target.z/100;
+        var target = this.camera.getWorldDirection();
+        this.avatar.position.x += -target.x;
+        this.avatar.position.z += -target.z;
         this.avatar.__dirtyPosition = true;
     }
 
     moveLeft() {
-        var target = this.controls.getTarget();
-        this.avatar.position.x += target.z/100;
-        this.avatar.position.z += -target.x/100;
+        var target = this.camera.getWorldDirection();
+        this.avatar.position.x += target.z;
+        this.avatar.position.z += -target.x;
         this.avatar.__dirtyPosition = true;
     }
 
     moveRight() {
-        var target = this.controls.getTarget();
-        this.avatar.position.x += -target.z/100;
-        this.avatar.position.z += target.x/100;
+        var target = this.camera.getWorldDirection();
+        this.avatar.position.x += -target.z;
+        this.avatar.position.z += target.x;
         this.avatar.__dirtyPosition = true;
     }
         

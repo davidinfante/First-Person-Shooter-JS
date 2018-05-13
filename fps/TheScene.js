@@ -75,7 +75,7 @@ class TheScene extends Physijs.Scene {
 
   dispara() {
     if(this.index >= this.maxBullets) this.index = 0;
-    this.bullets.dispara(this.index, this.avatar.getPosition(), this.controls.getTarget(), this.camera.position.y);
+    this.bullets.dispara(this.index, this.avatar.getPosition(), this.camera.getWorldDirection());
     this.index++;
   }
 
@@ -110,8 +110,7 @@ class TheScene extends Physijs.Scene {
     this.crosshair = new Crosshair();
     model.add( this.crosshair );
 
-    this.avatar = new Avatar(this.camera, this.controls, this);
-    //model.add(this.avatar);
+    this.avatar = new Avatar(this.camera, this);
 
     this.skybox = new Skybox();
     model.add(this.skybox);

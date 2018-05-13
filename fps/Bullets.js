@@ -50,12 +50,12 @@ class Bullets {
         this.bullets[i].position.z = -50;
     }
 
-    dispara(i, position, target, posY) {
+    dispara(i, position, target) {
         this.target[i].x = target.x;
         this.target[i].y = target.y;
         this.target[i].z = target.z;
         this.bullets[i].position.x = position.x;
-        this.bullets[i].position.y = 7;
+        this.bullets[i].position.y = position.y + 5;
         this.bullets[i].position.z = position.z;
         this.launched[i] = true;
         this.bullets[i].__dirtyPosition = true;
@@ -71,18 +71,19 @@ class Bullets {
         */
 
        
-        var fuerza = new THREE.Vector3(this.target[i].x/10, this.target[i].y/10, this.target[i].z/10);
+        var fuerza = new THREE.Vector3(this.target[i].x*10, this.target[i].y*10, this.target[i].z*10);
         this.bullets[i].applyCentralImpulse( fuerza );
 
         console.log(this.bullets[i].position.y);
         
-        
+        /*
         if(this.bullets[i].position.x > 100 || this.bullets[i].position.x < -100 || this.bullets[i].position.z > 100 || this.bullets[i].position.z < -100 || 
             this.bullets[i].position.y > 100 || this.bullets[i].position.y < this.bullets[i].objWidth/2){
                 console.log("RESETEO");
                 this.setInitPosition(i);
             this.launched[i] = false;
         }
+        */
         
         
 
