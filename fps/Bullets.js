@@ -35,6 +35,17 @@ class Bullets {
         return parameters;
     }
 
+    reload() {
+        for(var i=0; i<this.maxBullets; ++i){
+            this.bullets[i].remove();
+            this.launched[i] = false;
+            this.target[i] = new THREE.Vector3( 0, 0, 0 );
+            this.bullets[i].destroy();
+            this.bullets[i] = this.createObject(i);
+            scene.add(this.bullets[i]);
+        }
+    }
+
     createObject(i) {
         var bullet = new Physijs.SphereMesh(new THREE.SphereGeometry(this.objWidth/2, 20,20), this.material, 1);
         bullet.position.x = i;
@@ -48,6 +59,7 @@ class Bullets {
         this.bullets[i].position.x = i;
         this.bullets[i].position.y = 0.5;
         this.bullets[i].position.z = -50;
+        this.bullets[i].__dirtyPosition = true;
     }
 
     dispara(i, position, target) {
@@ -71,19 +83,12 @@ class Bullets {
         */
 
        
-        var fuerza = new THREE.Vector3(this.target[i].x*10, this.target[i].y*10, this.target[i].z*10);
+        var fuerza = new THREE.Vector3(this.target[i].x*1000, this.target[i].y*1000, this.target[i].z*1000);
         this.bullets[i].applyCentralImpulse( fuerza );
 
-        console.log(this.bullets[i].position.y);
+        //console.log(this.bullets[i].position.y);
         
-        /*
-        if(this.bullets[i].position.x > 100 || this.bullets[i].position.x < -100 || this.bullets[i].position.z > 100 || this.bullets[i].position.z < -100 || 
-            this.bullets[i].position.y > 100 || this.bullets[i].position.y < this.bullets[i].objWidth/2){
-                console.log("RESETEO");
-                this.setInitPosition(i);
-            this.launched[i] = false;
-        }
-        */
+        
         
         
 

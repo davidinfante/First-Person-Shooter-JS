@@ -8,25 +8,35 @@ class Avatar {
     constructor(camera, scene) {
 
         var mat = Physijs.createMaterial(new THREE.MeshPhongMaterial ({color: 0x000000}),1,0);
-        this.avatar = new Physijs.CylinderMesh (new THREE.CylinderGeometry (5, 5, 5, 16, 8), mat , 10);
+        this.avatar = new Physijs.CylinderMesh (new THREE.CylinderGeometry (5, 5, 5, 16, 8), mat , 1000);
+        this.avatar.material.transparent = true;
+        this.avatar.material.opacity = 0.0;
         this.avatar.position.y = 5;
         this.avatar.__dirtyPosition = true;
         scene.add(this.avatar);
         this.camera = camera;
 
         this.camera.name = "cam";
-
+        var thatCamera = this.camera;
+        var loader = new THREE.TextureLoader();
         var objLoader = new THREE.OBJLoader();
         objLoader.load( "models/m4a1_s.obj", function ( object ) {
-            object.scale.x = 0.2;
-            object.scale.y = 0.2;
-            object.scale.z = 0.2;
-            object.rotation.y = 3.14/2;
-            object.position.x = 0;
-            object.position.y = 8;
-            object.position.z = 12;
-            var camera = scene.getObjectByName( "cam", true);
-            camera.add( object );
+            var textura = loader.load ("imgs/wood.jpg");
+            var mat = new THREE.MeshLambertMaterial ({map: textura});
+            object.children[1].position.x = 0;
+            object.children[1].position.y = 0;
+            object.children[1].position.z = 0;
+            object.children[1].scale.x = 0.2;
+            object.children[1].scale.y = 0.2;
+            object.children[1].scale.z = 0.2;
+            object.children[1].rotation.x = 0.1;
+            object.children[1].rotation.y = 3.4;
+            object.children[1].position.x = 2;
+            object.children[1].position.y = -1;
+            object.children[1].position.z = -2;
+            var mesh = new THREE.Mesh(object.children[1], mat);
+            thatCamera.add(object.children[1]);
+
         });
 
         this.avatar.add(this.camera);
@@ -43,19 +53,8 @@ class Avatar {
     }
 
     jump() {
-        /*
-        console.log("SALTANDO");
-        if(this.jumping){
-            if(this.avatar.position.y > 20)
-                this.jumping = false;
-            else
-                this.avatar.position.y += 1;
-
-        }
-        this.avatar.__dirtyPosition = true;
-        */
         console.log("ENTRO");
-        var fuerza = new THREE.Vector3(0, 150, 0);
+        var fuerza = new THREE.Vector3(0, 20000, 0);
         this.avatar.applyCentralImpulse( fuerza );
     }
 

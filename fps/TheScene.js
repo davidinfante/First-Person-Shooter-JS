@@ -7,7 +7,7 @@ class TheScene extends Physijs.Scene {
   
   constructor (renderer) {
     super();
-    this.setGravity(new THREE.Vector3 (0, -10, 0));
+    this.setGravity(new THREE.Vector3 (0, -20, 0));
 
     // Attributes
     this.ambientLight = null;
@@ -74,7 +74,10 @@ class TheScene extends Physijs.Scene {
   }
 
   dispara() {
-    if(this.index >= this.maxBullets) this.index = 0;
+    if(this.index >= this.maxBullets){
+      this.index = 0;
+      this.bullets.reload();
+    }
     this.bullets.dispara(this.index, this.avatar.getPosition(), this.camera.getWorldDirection());
     this.index++;
   }
