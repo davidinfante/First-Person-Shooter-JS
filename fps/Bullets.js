@@ -46,7 +46,7 @@ class Bullets {
     }
 
     createObject(i) {
-        var bullet = new Physijs.SphereMesh(new THREE.SphereGeometry(this.objWidth/2, 20,20), this.material, 1);
+        var bullet = new Physijs.SphereMesh(new THREE.SphereGeometry(this.objWidth/4, 20,20), this.material, 100);
         bullet.position.x = i;
         bullet.position.y = 0.5;
         bullet.position.z = -50;
@@ -70,26 +70,7 @@ class Bullets {
         this.bullets[i].position.z = position.z;
         this.launched[i] = true;
         this.bullets[i].__dirtyPosition = true;
-    }
-
-    update(i) {
-        //console.log("ENTRO");
-        /*
-        this.bullets[i].position.x += this.target[i].x/100;
-        this.bullets[i].position.y += this.target[i].y/100;
-        this.bullets[i].position.z += this.target[i].z/100;
-        this.bullets[i].__dirtyPosition = true;
-        */
-
-       
-        var fuerza = new THREE.Vector3(this.target[i].x*1000, this.target[i].y*1000, this.target[i].z*1000);
+        var fuerza = new THREE.Vector3(this.target[i].x*35000, this.target[i].y*35000, this.target[i].z*35000);
         this.bullets[i].applyCentralImpulse( fuerza );
-
-        //console.log(this.bullets[i].position.y);
-        
-        
-        
-        
-
     }
 }

@@ -8,7 +8,7 @@ class Avatar {
     constructor(camera, scene) {
 
         var mat = Physijs.createMaterial(new THREE.MeshPhongMaterial ({color: 0x000000}),1,0);
-        this.avatar = new Physijs.CylinderMesh (new THREE.CylinderGeometry (5, 5, 5, 16, 8), mat , 1000);
+        this.avatar = new Physijs.BoxMesh (new THREE.BoxGeometry (10,5,10), mat , 1000);
         this.avatar.material.transparent = true;
         this.avatar.material.opacity = 0.0;
         this.avatar.position.y = 5;
@@ -52,7 +52,6 @@ class Avatar {
     }
 
     jump() {
-        console.log("ENTRO");
         var fuerza = new THREE.Vector3(0, 20000, 0);
         this.avatar.applyCentralImpulse( fuerza );
     }

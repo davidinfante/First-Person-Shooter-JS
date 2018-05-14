@@ -127,7 +127,7 @@ class TheScene extends Physijs.Scene {
     var loader = new THREE.TextureLoader();
     var textura = loader.load ("imgs/wood.jpg");
     var mat = Physijs.createMaterial(new THREE.MeshPhongMaterial ({map: textura}),1,0);
-    this.map = new Map(mat, 0);
+    this.map = new Map();
     for (var i = 0; i < this.map.getMapSize(); ++i) {
       this.add(this.map.getMap(i));
     }
@@ -146,15 +146,6 @@ class TheScene extends Physijs.Scene {
     this.axis.visible = controls.axis;
     this.spotLight.visible = controls.lightonoff;
     this.spotLight.intensity = controls.lightIntensity;
-
-    for(var i=0; i<this.maxBullets; ++i){
-      if(this.bullets.getLaunched(i))
-        this.bullets.update(i);
-    }
-    /*
-    if(this.avatar.getJumping())
-      this.avatar.jump();
-      */
   }
   
   moveForward () {
