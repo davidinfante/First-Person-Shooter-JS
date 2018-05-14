@@ -22,6 +22,15 @@ clock = null;
 
 renderer = null;
 
+camera = null;
+controls = null;
+velocity = new THREE.Vector3();
+direction = new THREE.Vector3();
+moveForward = false;
+moveBackward = false;
+moveLeft = false;
+moveRight = false;
+
 /// It creates the GUI and, optionally, adds statistic information
 /**
  * @param withStats - A boolean to show the statictics or not
@@ -88,21 +97,62 @@ function onMouseDown (event) {
  * @param event - Keyboard information
  */
 function onKeyDown (event) {
-  var key = event.which;
+  switch ( event.keyCode ) {
 
-  switch(key) {
-    case 87:
-      scene.moveForward();
-    break;
-    case 83:
-      scene.moveBackward();
-    break;
-    case 65:
-      scene.moveLeft();
-    break;
-    case 68:
-      scene.moveRight();
-    break;
+    case 38: // up
+    case 87: // w
+      moveForward = true;
+      break;
+
+    case 37: // left
+    case 65: // a
+      moveLeft = true;
+      break;
+
+    case 40: // down
+    case 83: // s
+      moveBackward = true;
+      break;
+
+    case 39: // right
+    case 68: // d
+      moveRight = true;
+      break;
+
+    case 32: // space
+      velocity.y += 350;
+      break;
+
+  }
+}
+
+/// It processes keyboard information
+/**
+ * @param event - Keyboard information
+ */
+function onKeyUp (event) {
+  switch( event.keyCode ) {
+
+    case 38: // up
+    case 87: // w
+      moveForward = false;
+      break;
+
+    case 37: // left
+    case 65: // a
+      moveLeft = false;
+      break;
+
+    case 40: // down
+    case 83: // s
+      moveBackward = false;
+      break;
+
+    case 39: // right
+    case 68: // d
+      moveRight = false;
+      break;
+
   }
 }
 
@@ -128,7 +178,9 @@ function onWindowResize () {
 function createRenderer () {
   var renderer = new THREE.WebGLRenderer();
   renderer.setClearColor(new THREE.Color(0xEEEEEE), 1.0);
+  renderer.setPixelRatio( window.devicePixelRatio );
   renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild( renderer.domElement );
   renderer.shadowMap.enabled = true;
   return renderer;
 }
@@ -140,9 +192,9 @@ function render() {
   stats.update();
 
   var delta = clock.getDelta();
+  //scene.getCameraControls().update(delta);
 
-  scene.getCameraControls().update(delta);
-  scene.animate(GUIcontrols);
+  scene.animate(GUIcontrols, delta);
   renderer.render(scene, scene.getCamera());
   scene.simulate();
 }
@@ -152,6 +204,70 @@ $(function () {
   'use strict';
   Physijs.scripts.worker = '../libs/physijs_worker.js';
   Physijs.scripts.ammo = '../libs/ammo.js';
+
+
+  var instructions = document.getElementById( 'instructions' );
+  var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
+
+  if ( havePointerLock ) {
+
+    var element = document.body;
+
+    var pointerlockchange = function ( event ) {
+
+      if ( document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element ) {
+
+        controlsEnabled = true;
+        controls.enabled = true;
+
+        blocker.style.display = 'none';
+
+      } else {
+
+        controls.enabled = false;
+
+        blocker.style.display = 'block';
+
+        instructions.style.display = '';
+
+      }
+
+    };
+
+    var pointerlockerror = function ( event ) {
+
+      instructions.style.display = '';
+
+    };
+
+    // Hook pointer lock state change events
+    document.addEventListener( 'pointerlockchange', pointerlockchange, false );
+    document.addEventListener( 'mozpointerlockchange', pointerlockchange, false );
+    document.addEventListener( 'webkitpointerlockchange', pointerlockchange, false );
+
+    document.addEventListener( 'pointerlockerror', pointerlockerror, false );
+    document.addEventListener( 'mozpointerlockerror', pointerlockerror, false );
+    document.addEventListener( 'webkitpointerlockerror', pointerlockerror, false );
+
+    instructions.addEventListener( 'click', function ( event ) {
+
+      instructions.style.display = 'none';
+
+      // Ask the browser to lock the pointer
+      element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
+      element.requestPointerLock();
+
+    }, false );
+
+  } else {
+
+    instructions.innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API';
+
+  }
+
+  var controlsEnabled = false;
+  camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+
   // create a render and set the size
   renderer = createRenderer();
   // add the output of the renderer to the html element
@@ -160,9 +276,14 @@ $(function () {
   window.addEventListener ("resize", onWindowResize);
   window.addEventListener ("mousedown", onMouseDown, true);
   window.addEventListener("keydown", onKeyDown, true);
+  window.addEventListener("keyup", onKeyUp, true);
+
+  //raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
 
   // create a scene, that will hold all our elements such as objects, cameras and lights.
-  scene = new TheScene (renderer.domElement);
+  scene = new TheScene (renderer.domElement, camera);
+  controls = new THREE.PointerLockControls (camera);
+  scene.add( controls.getObject() );
 
   clock = new THREE.Clock();
 

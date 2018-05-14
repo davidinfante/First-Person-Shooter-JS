@@ -5,16 +5,17 @@
  */
 class Avatar {
 
-    constructor(camera, scene) {
+    constructor(camera, controls, scene) {
 
         var mat = Physijs.createMaterial(new THREE.MeshPhongMaterial ({color: 0x000000}),1,0);
         this.avatar = new Physijs.BoxMesh (new THREE.BoxGeometry (10,5,10), mat , 1000);
-        this.avatar.material.transparent = true;
-        this.avatar.material.opacity = 0.0;
+        //this.avatar.material.transparent = true;
+        //this.avatar.material.opacity = 0.0;
         this.avatar.position.y = 5;
         this.avatar.__dirtyPosition = true;
         scene.add(this.avatar);
         this.camera = camera;
+        this.controls = controls;
 
         var thatCamera = this.camera;
         var loader = new THREE.TextureLoader();
@@ -39,6 +40,7 @@ class Avatar {
         });
 
         this.avatar.add(this.camera);
+        this.avatar.add(this.controls);
         this.jumping = false;
 
     }
@@ -58,29 +60,29 @@ class Avatar {
 
     moveForward() {
         var target = this.camera.getWorldDirection();
-        this.avatar.position.x += target.x;
-        this.avatar.position.z += target.z;
+        this.avatar.translateX( target.x );
+        this.avatar.translateZ( target.z );
         this.avatar.__dirtyPosition = true;
     }
 
     moveBackward() {
         var target = this.camera.getWorldDirection();
-        this.avatar.position.x += -target.x;
-        this.avatar.position.z += -target.z;
+        this.avatar.translateX( -target.x );
+        this.avatar.translateZ( -target.z );
         this.avatar.__dirtyPosition = true;
     }
 
     moveLeft() {
         var target = this.camera.getWorldDirection();
-        this.avatar.position.x += target.z;
-        this.avatar.position.z += -target.x;
+        this.avatar.translateX( target.x );
+        this.avatar.translateZ( -target.z );
         this.avatar.__dirtyPosition = true;
     }
 
     moveRight() {
         var target = this.camera.getWorldDirection();
-        this.avatar.position.x += -target.z;
-        this.avatar.position.z += target.x;
+        this.avatar.translateX( -target.x );
+        this.avatar.translateZ( target.z );
         this.avatar.__dirtyPosition = true;
     }
         

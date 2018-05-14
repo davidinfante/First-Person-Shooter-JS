@@ -5,15 +5,17 @@
  
 class TheScene extends Physijs.Scene {
   
-  constructor (renderer) {
+  constructor (renderer, aCamera) {
+
     super();
     this.setGravity(new THREE.Vector3 (0, -20, 0));
 
     // Attributes
     this.ambientLight = null;
     this.spotLight = null;
-    this.camera = null;
-    this.controls = null;
+
+    this.camera = aCamera;
+
     this.map = null;
     this.skybox = null;
     this.crosshair = null;
@@ -27,8 +29,6 @@ class TheScene extends Physijs.Scene {
     this.add (this.axis);
     this.model = this.createModel ();
     this.add (this.model);
-
-
   }
   
   /// It creates the camera and adds it to the graph
@@ -36,19 +36,14 @@ class TheScene extends Physijs.Scene {
    * @param renderer - The renderer associated with the camera
    */
   createCamera (renderer) {
-    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    this.camera.position.set (0, 5, 0);
+    //this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    /*this.camera.position.set (0, 5, 0);
     var look = new THREE.Vector3 (8,8,8);
-    this.camera.lookAt(look);
+    this.camera.lookAt(look);*/
 
-    /*this.controls = new THREE.TrackballControls (this.camera, renderer);
-    this.controls.rotateSpeed = 5;
-    this.controls.zoomSpeed = -2;
-    this.controls.panSpeed = 0.5;
-    this.controls.target = look;*/
-
-    this.controls = new THREE.FirstPersonControls (this.camera, renderer);
-    this.controls.lookSpeed = 0.1;
+    /*this.controls = new THREE.PointerLockControls (this.camera);
+    this.add( controls.getObject() );*/
+    /*this.controls.lookSpeed = 0.1;
     this.controls.movementSpeed = 50;
     this.controls.noFly = true;
     this.controls.lookVertical = true;
@@ -57,7 +52,7 @@ class TheScene extends Physijs.Scene {
     this.controls.verticalMax = 2.0;
     this.controls.lon = -150;
     this.controls.lat = 120;
-    this.controls.target = look;
+    this.controls.target = look;*/
 
     // Create the Crosshair
     var crosshair = new Crosshair();
@@ -113,7 +108,7 @@ class TheScene extends Physijs.Scene {
     this.crosshair = new Crosshair();
     model.add( this.crosshair );
 
-    this.avatar = new Avatar(this.camera, this);
+    this.avatar = new Avatar(this.camera, controls, this);
 
     this.skybox = new Skybox();
     model.add(this.skybox);
@@ -141,11 +136,34 @@ class TheScene extends Physijs.Scene {
   /**
    * @controls - The GUI information
    */
-  animate (controls) {
+  animate (GUIcontrols, delta) {
     this.simulate();
-    this.axis.visible = controls.axis;
-    this.spotLight.visible = controls.lightonoff;
-    this.spotLight.intensity = controls.lightIntensity;
+    this.axis.visible = GUIcontrols.axis;
+    this.spotLight.visible = GUIcontrols.lightonoff;
+    this.spotLight.intensity = GUIcontrols.lightIntensity;
+
+    velocity.x -= velocity.x * 10.0 * delta;
+    velocity.z -= velocity.z * 10.0 * delta;
+
+    velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+
+    direction.z = Number( moveForward ) - Number( moveBackward );
+    direction.x = Number( moveLeft ) - Number( moveRight );
+    direction.normalize(); // this ensures consistent movements in all directions*/
+
+    if ( moveForward || moveBackward ) velocity.z -= direction.z * 400.0 * delta;
+    if ( moveLeft || moveRight ) velocity.x -= direction.x * 400.0 * delta;
+
+    controls.getObject().translateX( velocity.x * delta );
+    controls.getObject().translateY( velocity.y * delta/4 );
+    controls.getObject().translateZ( velocity.z * delta );
+
+    if ( controls.getObject().position.y < 10 ) {
+
+      velocity.y = 0;
+      controls.getObject().position.y = 10;
+
+    }
   }
   
   moveForward () {
