@@ -16,7 +16,6 @@ class Avatar {
         scene.add(this.avatar);
         this.camera = camera;
 
-        this.camera.name = "cam";
         var thatCamera = this.camera;
         var loader = new THREE.TextureLoader();
         var objLoader = new THREE.OBJLoader();

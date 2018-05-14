@@ -40,7 +40,6 @@ class Bullets {
             this.bullets[i].remove();
             this.launched[i] = false;
             this.target[i] = new THREE.Vector3( 0, 0, 0 );
-            this.bullets[i].destroy();
             this.bullets[i] = this.createObject(i);
             scene.add(this.bullets[i]);
         }
