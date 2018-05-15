@@ -30,6 +30,7 @@ moveForward = false;
 moveBackward = false;
 moveLeft = false;
 moveRight = false;
+jumping = false;
 
 /// It creates the GUI and, optionally, adds statistic information
 /**
@@ -120,7 +121,7 @@ function onKeyDown (event) {
       break;
 
     case 32: // space
-      velocity.y += 350;
+      jumping = true;
       break;
 
   }
@@ -153,6 +154,9 @@ function onKeyUp (event) {
       moveRight = false;
       break;
 
+    case 32: // space
+      jumping = false;
+      break;
   }
 }
 

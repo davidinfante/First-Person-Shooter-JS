@@ -18,31 +18,34 @@ class Avatar {
         this.controls = controls;
 
         var thatCamera = this.camera;
-        var loader = new THREE.TextureLoader();
-        var objLoader = new THREE.OBJLoader();
-        objLoader.load( "models/m4a1_s.obj", function ( object ) {
-            var textura = loader.load ("imgs/wood.jpg");
-            var mat = new THREE.MeshLambertMaterial ({map: textura});
-            object.children[1].position.x = 0;
-            object.children[1].position.y = 0;
-            object.children[1].position.z = 0;
-            object.children[1].scale.x = 0.2;
-            object.children[1].scale.y = 0.2;
-            object.children[1].scale.z = 0.2;
-            object.children[1].rotation.x = 0.1;
-            object.children[1].rotation.y = 3.4;
-            object.children[1].position.x = 2;
-            object.children[1].position.y = -1;
-            object.children[1].position.z = -2;
-            var mesh = new THREE.Mesh(object.children[1], mat);
-            thatCamera.add(object.children[1]);
 
-        });
+        /*var mtlLoader = new THREE.MTLLoader();
+        //mtlLoader.setBaseUrl( "textures/" );
+        //mtlLoader.setPath( "textures/" );
+        mtlLoader.load( "textures/AK47.mtl" , function ( materials ) {
+            materials.preload();*/
+
+            var objLoader = new THREE.OBJLoader();
+            //objLoader.setMaterials( materials );
+            //objLoader.setPath( "models/" );
+            objLoader.load( "models/m4a1_s.obj", function ( object ) {
+                object.children[1].position.x = 0;
+                object.children[1].position.y = 0;
+                object.children[1].position.z = 0;
+                object.children[1].scale.x = 0.2;
+                object.children[1].scale.y = 0.2;
+                object.children[1].scale.z = 0.2;
+                object.children[1].rotation.x = 0.1;
+                object.children[1].rotation.y = 3.4;
+                object.children[1].position.x = 2;
+                object.children[1].position.y = -1;
+                object.children[1].position.z = -2;
+                thatCamera.add(object.children[1]);
+
+            });
+        //});
 
         this.avatar.add(this.camera);
-        this.avatar.add(this.controls);
-        this.jumping = false;
-
     }
 
     getPosition() {
@@ -54,37 +57,43 @@ class Avatar {
     }
 
     jump() {
+        jumping = false;
         var fuerza = new THREE.Vector3(0, 20000, 0);
         this.avatar.applyCentralImpulse( fuerza );
     }
 
-    moveForward() {
+    updateControls() {
+        controls.getObject().position.x =  this.avatar.position.x;
+        controls.getObject().position.y =  this.avatar.position.y+5;
+        controls.getObject().position.z = this.avatar.position.z;
+    }
+
+    moveForward(x, z) {
         var target = this.camera.getWorldDirection();
         this.avatar.translateX( target.x );
         this.avatar.translateZ( target.z );
         this.avatar.__dirtyPosition = true;
     }
 
-    moveBackward() {
+    moveBackward(x, z) {
         var target = this.camera.getWorldDirection();
         this.avatar.translateX( -target.x );
         this.avatar.translateZ( -target.z );
         this.avatar.__dirtyPosition = true;
     }
 
-    moveLeft() {
+    moveLeft(x, z) {
         var target = this.camera.getWorldDirection();
-        this.avatar.translateX( target.x );
-        this.avatar.translateZ( -target.z );
+        this.avatar.translateX( target.z );
+        this.avatar.translateZ( -target.x );
         this.avatar.__dirtyPosition = true;
     }
 
-    moveRight() {
+    moveRight(x, z) {
         var target = this.camera.getWorldDirection();
-        this.avatar.translateX( -target.x );
-        this.avatar.translateZ( target.z );
+        this.avatar.translateX( -target.z );
+        this.avatar.translateZ( target.x );
         this.avatar.__dirtyPosition = true;
-    }
-        
+    }        
 
 }

@@ -13,9 +13,7 @@ class TheScene extends Physijs.Scene {
     // Attributes
     this.ambientLight = null;
     this.spotLight = null;
-
     this.camera = aCamera;
-
     this.map = null;
     this.skybox = null;
     this.crosshair = null;
@@ -36,24 +34,6 @@ class TheScene extends Physijs.Scene {
    * @param renderer - The renderer associated with the camera
    */
   createCamera (renderer) {
-    //this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    /*this.camera.position.set (0, 5, 0);
-    var look = new THREE.Vector3 (8,8,8);
-    this.camera.lookAt(look);*/
-
-    /*this.controls = new THREE.PointerLockControls (this.camera);
-    this.add( controls.getObject() );*/
-    /*this.controls.lookSpeed = 0.1;
-    this.controls.movementSpeed = 50;
-    this.controls.noFly = true;
-    this.controls.lookVertical = true;
-    this.controls.constrainVertical = true;
-    this.controls.verticalMin = 1.0;
-    this.controls.verticalMax = 2.0;
-    this.controls.lon = -150;
-    this.controls.lat = 120;
-    this.controls.target = look;*/
-
     // Create the Crosshair
     var crosshair = new Crosshair();
     this.camera.add( crosshair );
@@ -64,8 +44,6 @@ class TheScene extends Physijs.Scene {
     var crosshairPositionX = (crosshairPercentX / 100) * 2 - 1;
     var crosshairPositionY = (crosshairPercentY / 100) * 2 - 1;
     crosshair.position.set((crosshairPercentX / 100) * 2 - 1, (crosshairPercentY / 100) * 2 - 1, -0.3);
-
-    //this.add(this.camera);
   }
 
   dispara() {
@@ -142,28 +120,28 @@ class TheScene extends Physijs.Scene {
     this.spotLight.visible = GUIcontrols.lightonoff;
     this.spotLight.intensity = GUIcontrols.lightIntensity;
 
+
+    //Controls and Movements update
     velocity.x -= velocity.x * 10.0 * delta;
     velocity.z -= velocity.z * 10.0 * delta;
 
-    velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
-
     direction.z = Number( moveForward ) - Number( moveBackward );
     direction.x = Number( moveLeft ) - Number( moveRight );
-    direction.normalize(); // this ensures consistent movements in all directions*/
+    direction.normalize();
 
     if ( moveForward || moveBackward ) velocity.z -= direction.z * 400.0 * delta;
     if ( moveLeft || moveRight ) velocity.x -= direction.x * 400.0 * delta;
 
-    controls.getObject().translateX( velocity.x * delta );
-    controls.getObject().translateY( velocity.y * delta/4 );
-    controls.getObject().translateZ( velocity.z * delta );
+    if (moveForward) this.avatar.moveForward( velocity.x*delta, velocity.z*delta );
+    if (moveBackward) this.avatar.moveBackward( -velocity.x*delta, -velocity.z*delta );
+    if (moveLeft) this.avatar.moveLeft( velocity.z*delta, -velocity.x*delta );
+    if (moveRight) this.avatar.moveRight( velocity.x*delta, velocity.z*delta );
 
-    if ( controls.getObject().position.y < 10 ) {
-
-      velocity.y = 0;
-      controls.getObject().position.y = 10;
-
+    if (jumping) {
+      this.avatar.jump();
     }
+
+    this.avatar.updateControls();
   }
   
   moveForward () {
