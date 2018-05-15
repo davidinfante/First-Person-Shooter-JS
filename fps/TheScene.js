@@ -27,6 +27,8 @@ class TheScene extends Physijs.Scene {
     this.add (this.axis);
     this.model = this.createModel ();
     this.add (this.model);
+
+    this.loadWeapons();
   }
   
   /// It creates the camera and adds it to the graph
@@ -51,7 +53,7 @@ class TheScene extends Physijs.Scene {
       this.index = 0;
       this.bullets.reload();
     }
-    this.bullets.dispara(this.index, this.avatar.getPosition(), this.camera.getWorldDirection());
+    this.bullets.dispara(this.index, this.avatar.getPosition(), this.camera.getWorldDirection(), this.avatar.getActiveWeapon());
     this.index++;
   }
 
@@ -120,22 +122,10 @@ class TheScene extends Physijs.Scene {
     this.spotLight.visible = GUIcontrols.lightonoff;
     this.spotLight.intensity = GUIcontrols.lightIntensity;
 
-
-    //Controls and Movements update
-    velocity.x -= velocity.x * 10.0 * delta;
-    velocity.z -= velocity.z * 10.0 * delta;
-
-    direction.z = Number( moveForward ) - Number( moveBackward );
-    direction.x = Number( moveLeft ) - Number( moveRight );
-    direction.normalize();
-
-    if ( moveForward || moveBackward ) velocity.z -= direction.z * 400.0 * delta;
-    if ( moveLeft || moveRight ) velocity.x -= direction.x * 400.0 * delta;
-
-    if (moveForward) this.avatar.moveForward( velocity.x*delta, velocity.z*delta );
-    if (moveBackward) this.avatar.moveBackward( -velocity.x*delta, -velocity.z*delta );
-    if (moveLeft) this.avatar.moveLeft( velocity.z*delta, -velocity.x*delta );
-    if (moveRight) this.avatar.moveRight( velocity.x*delta, velocity.z*delta );
+    if (moveForward) this.avatar.moveForward();
+    if (moveBackward) this.avatar.moveBackward();
+    if (moveLeft) this.avatar.moveLeft();
+    if (moveRight) this.avatar.moveRight();
 
     if (jumping) {
       this.avatar.jump();
@@ -143,23 +133,14 @@ class TheScene extends Physijs.Scene {
 
     this.avatar.updateControls();
   }
-  
-  moveForward () {
-    this.avatar.moveForward();
+
+  changeWeapon() {
+    this.avatar.changeWeapon();
   }
 
-  moveBackward () {
-    this.avatar.moveBackward();
+  loadWeapons() {
+    this.avatar.loadWeapons();
   }
-
-  moveLeft () {
-    this.avatar.moveLeft();
-  }
-
-  moveRight () {
-    this.avatar.moveRight();
-  }
-
 
   /// It returns the camera
   /**

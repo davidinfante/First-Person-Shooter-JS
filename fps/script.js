@@ -24,8 +24,6 @@ renderer = null;
 
 camera = null;
 controls = null;
-velocity = new THREE.Vector3();
-direction = new THREE.Vector3();
 moveForward = false;
 moveBackward = false;
 moveLeft = false;
@@ -124,6 +122,10 @@ function onKeyDown (event) {
       jumping = true;
       break;
 
+    case 81: //q
+      scene.changeWeapon();
+      break;
+
   }
 }
 
@@ -166,7 +168,7 @@ function onKeyUp (event) {
  * @param event - Mouse information
  */
 function onMouseWheel (event) {
-
+  scene.changeWeapon();
 }
 
 /// It processes the window size changes
@@ -281,6 +283,8 @@ $(function () {
   window.addEventListener ("mousedown", onMouseDown, true);
   window.addEventListener("keydown", onKeyDown, true);
   window.addEventListener("keyup", onKeyUp, true);
+  window.addEventListener ("mousewheel", onMouseWheel, true);   // For Chrome an others
+  window.addEventListener ("DOMMouseScroll", onMouseWheel, true); // For Firefox
 
   //raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
 

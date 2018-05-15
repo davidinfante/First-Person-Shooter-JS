@@ -38,7 +38,7 @@ class Map {
     var textura = loader.load ("imgs/diana.png");
     var mat = Physijs.createMaterial(new THREE.MeshPhongMaterial ({map: textura}),1,1);
 
-    var objetivo = new Physijs.BoxMesh (new THREE.BoxGeometry (5, 10, 5, 1, 1, 1), mat, 30);
+    var objetivo = new Physijs.BoxMesh (new THREE.BoxGeometry (5, 10, 5, 1, 1, 1), mat, 5);
     objetivo.applyMatrix (new THREE.Matrix4().makeTranslation (0,10,-200));
     objetivo.receiveShadow = true;
     objetivo.autoUpdateMatrix = false;
@@ -47,10 +47,10 @@ class Map {
 
     objetivo.addEventListener ( 'collision' , function (elOtroObjeto , velocidad , rotacion , normal) { 
       var sound = new Howl({
-        src: ['sounds/animals020.mp3'], volume: 0.3
+        src: ['sounds/death.mp3'], volume: 0.3
       });
       sound.play();
-    }) ;
+    });
 
     return this;
   }

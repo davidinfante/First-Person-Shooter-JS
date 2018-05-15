@@ -61,7 +61,7 @@ class Bullets {
         this.bullets[i].__dirtyPosition = true;
     }
 
-    dispara(i, position, target) {
+    dispara(i, position, target, weapon) {
         this.target[i].x = target.x;
         this.target[i].y = target.y;
         this.target[i].z = target.z;
@@ -72,5 +72,18 @@ class Bullets {
         this.bullets[i].__dirtyPosition = true;
         var fuerza = new THREE.Vector3(this.target[i].x*35000, this.target[i].y*35000, this.target[i].z*35000);
         this.bullets[i].applyCentralImpulse( fuerza );
+        
+        if (weapon == 1) {
+            var sound = new Howl({
+              src: ['sounds/m4a1_s.mp3'], volume: 0.1
+            });
+            sound.play();
+        } else if (weapon == 0) {
+            var sound = new Howl({
+              src: ['sounds/escopeta.mp3'], volume: 0.1
+            });
+            sound.play();
+        }
+        
     }
 }
