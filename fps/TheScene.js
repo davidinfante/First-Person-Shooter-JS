@@ -114,8 +114,6 @@ class TheScene extends Physijs.Scene {
   animate (GUIcontrols, delta) {
     this.simulate();
     this.axis.visible = GUIcontrols.axis;
-    this.spotLight.visible = GUIcontrols.lightonoff;
-    this.spotLight.intensity = GUIcontrols.lightIntensity;
 
     if (moveForward) this.avatar.moveForward();
     if (moveBackward) this.avatar.moveBackward();

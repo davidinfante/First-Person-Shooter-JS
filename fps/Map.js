@@ -16,6 +16,8 @@ class Map {
 
     var loader = new THREE.TextureLoader();
     var textura = loader.load ("imgs/wood.jpg");
+    var diana = loader.load ("imgs/diana.png");
+
     var mat = Physijs.createMaterial(new THREE.MeshPhongMaterial ({map: textura}),1,0);
     
     var start1 = new Physijs.BoxMesh (new THREE.BoxGeometry (200, 0.0, 200, 1, 1, 1), mat, 0);
@@ -62,23 +64,36 @@ class Map {
 
     //More parts of the map
 
+    mat = Physijs.createMaterial(new THREE.MeshPhongMaterial ({map: diana}), 1, 1);
 
-    var textura = loader.load ("imgs/diana.png");
-    var mat = Physijs.createMaterial(new THREE.MeshPhongMaterial ({map: textura}), 1, 1);
-
-    var objetivo = new Physijs.BoxMesh (new THREE.BoxGeometry (7.5, 10, 2.5, 1, 1, 1), mat, 1);
-    objetivo.applyMatrix (new THREE.Matrix4().makeTranslation (5, 11, -200));
-    objetivo.receiveShadow = true;
-    objetivo.autoUpdateMatrix = false;
-    this.map.push(objetivo);
+    var objetivo1 = new Physijs.BoxMesh (new THREE.BoxGeometry (7.5, 10, 2.5, 1, 1, 1), mat, 1);
+    objetivo1.applyMatrix (new THREE.Matrix4().makeTranslation (5, 11, -200));
+    objetivo1.receiveShadow = true;
+    objetivo1.autoUpdateMatrix = false;
+    this.map.push(objetivo1);
     ++this.map_size;
 
-    objetivo.addEventListener ( 'collision' , function (elOtroObjeto , velocidad , rotacion , normal) { 
+    objetivo1.addEventListener ( 'collision' , function (elOtroObjeto , velocidad , rotacion , normal) { 
       var sound = new Howl({
         src: ['sounds/death.mp3'], volume: 0.3
       });
       sound.play();
     });
+
+    var objetivo2 = new Physijs.BoxMesh (new THREE.BoxGeometry (7.5, 10, 2.5, 1, 1, 1), mat, 1);
+    objetivo2.applyMatrix (new THREE.Matrix4().makeTranslation (-5, 11, -200));
+    objetivo2.receiveShadow = true;
+    objetivo2.autoUpdateMatrix = false;
+    this.map.push(objetivo2);
+    ++this.map_size;
+
+    objetivo2.addEventListener ( 'collision' , function (elOtroObjeto , velocidad , rotacion , normal) { 
+      var sound = new Howl({
+        src: ['sounds/death.mp3'], volume: 0.3
+      });
+      sound.play();
+    });
+    
 
     return this;
   }

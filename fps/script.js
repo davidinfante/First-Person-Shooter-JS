@@ -38,16 +38,12 @@ disparando = false;
 function createGUI (withStats) {
   GUIcontrols = new function() {
     this.axis = false;
-    this.lightonoff = true;
-    this.lightIntensity = 1;
   }
 
   var gui = new dat.GUI();
 
   var axisLights = gui.addFolder ('Axis and Lights');
     axisLights.add(GUIcontrols, 'axis').name('Axis on/off :');
-    axisLights.add(GUIcontrols, 'lightonoff').name('Light on/off :');
-    axisLights.add(GUIcontrols, 'lightIntensity', 0, 1.0).name('Light intensity :');
 
     if (withStats)
       stats = initStats();
@@ -124,7 +120,7 @@ function onKeyDown (event) {
       break;
 
     case 81: //q
-      scene.changeWeapon();
+      if (!disparando) scene.changeWeapon();
       break;
 
   }
@@ -165,7 +161,7 @@ function onKeyUp (event) {
  * @param event - Mouse information
  */
 function onMouseWheel (event) {
-  scene.changeWeapon();
+  if (!disparando) scene.changeWeapon();
 }
 
 /// It processes the window size changes

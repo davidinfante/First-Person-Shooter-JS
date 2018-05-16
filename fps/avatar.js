@@ -60,7 +60,6 @@ class Avatar {
         nextPosition = target.z + this.avatar.position.z;
         if(nextPosition <= this.posLimite && nextPosition >= -this.posLimite)
             this.avatar.translateZ( target.z );
-        //this.avatar.__dirtyPosition = true;
     }
 
     moveBackward() {
@@ -71,7 +70,6 @@ class Avatar {
         nextPosition = -target.z + this.avatar.position.z;
         if(nextPosition <= this.posLimite && nextPosition >= -this.posLimite)
             this.avatar.translateZ( -target.z );
-        //this.avatar.__dirtyPosition = true;
     }
 
     moveLeft() {
@@ -89,10 +87,9 @@ class Avatar {
         var nextPosition = -target.z + this.avatar.position.x;
         if(nextPosition <= this.posLimite && nextPosition >= -this.posLimite)
             this.avatar.translateX( -target.z );
-        nextPosition = target.z + this.avatar.position.x;
+        nextPosition = target.x + this.avatar.position.z;
         if(nextPosition <= this.posLimite && nextPosition >= -this.posLimite)
             this.avatar.translateZ( target.x );
-        //this.avatar.__dirtyPosition = true;
     }
 
     changeWeapon() {
