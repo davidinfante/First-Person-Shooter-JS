@@ -113,23 +113,23 @@ class Avatar {
     animateWeapon() {
         if (this.activeWeapon == 0) {
             if (this.recoil) {
-                if (this.camera.children[1].rotation.x >= 0.2) this.recoil = false;
-                else this.camera.children[1].rotation.x += 0.1;
+                if (this.rifle.rotation.x >= 0.2) this.recoil = false;
+                else this.rifle.rotation.x += 0.1;
             } else {
-                if (this.camera.children[1].rotation.x >= 0 && this.camera.children[1].rotation.x <= 0.1) {
+                if (this.rifle.rotation.x >= 0 && this.rifle.rotation.x <= 0.1) {
                     disparando = false;
                     this.recoil = true;
-                } else this.camera.children[1].rotation.x -= 0.1;
+                } else this.rifle.rotation.x -= 0.1;
             }
         } else if (this.activeWeapon == 1) {
             if (this.recoil) {
-                if (this.camera.children[2].rotation.x >= 1.8) this.recoil = false;
-                else this.camera.children[2].rotation.x += 0.1;
+                if (this.shotgun.rotation.x >= 1.8) this.recoil = false;
+                else this.shotgun.rotation.x += 0.1;
             } else {
-                if (this.camera.children[2].rotation.x >= 0 && this.camera.children[2].rotation.x <= 0.1) {
+                if (this.shotgun.rotation.x >= 0 && this.shotgun.rotation.x <= 0.1) {
                     disparando = false;
                     this.recoil = true;
-                } else this.camera.children[2].rotation.x -= 0.1;
+                } else this.shotgun.rotation.x -= 0.1;
             }
         }
     }
