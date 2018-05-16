@@ -13,7 +13,7 @@ class Bullets {
         this.bullets = [];
         this.launched = [];
         this.target = [];
-        for(var i=0; i<maxBullets; ++i){
+        for(var i = 0; i < maxBullets; ++i) {
             this.launched[i] = false;
             this.target[i] = new THREE.Vector3( 0, 0, 0 );
             this.bullets[i] = this.createObject(i);
@@ -36,7 +36,7 @@ class Bullets {
     }
 
     reload() {
-        for(var i=0; i<this.maxBullets; ++i){
+        for (var i = 0; i < this.maxBullets; ++i) {
             this.bullets[i].remove();
             this.launched[i] = false;
             this.target[i] = new THREE.Vector3( 0, 0, 0 );
@@ -46,30 +46,29 @@ class Bullets {
     }
 
     createObject(i) {
-        var bullet = new Physijs.SphereMesh(new THREE.SphereGeometry(this.objWidth/4, 20,20), this.material, 100);
-        bullet.position.x = i;
-        bullet.position.y = 0.5;
-        bullet.position.z = -50;
+        var bullet = new Physijs.SphereMesh(new THREE.SphereGeometry(this.objWidth/4, 20,20), this.material, 50);
+        bullet.position.set(i, -9.5, 0.0);
         bullet.castShadow = true;
         return bullet;
     }
 
     setInitPosition(i) {
         this.bullets[i].position.x = i;
-        this.bullets[i].position.y = 0.5;
-        this.bullets[i].position.z = -50;
+        this.bullets[i].position.y = -9.5;
+        this.bullets[i].position.z = 0;
         this.bullets[i].__dirtyPosition = true;
     }
 
     dispara(i, position, target, weapon) {
-        this.target[i].x = target.x;
-        this.target[i].y = target.y;
-        this.target[i].z = target.z;
-        this.bullets[i].position.x = position.x;
-        this.bullets[i].position.y = position.y + 5;
-        this.bullets[i].position.z = position.z;
-        this.launched[i] = true;
+        this.target[i].set(target.x, target.y, target.z);
+        this.bullets[i].position.set(position.x-target.x, position.y+5, position.z-target.z);
+
+        //Detect more collisions per second
+        this.bullets[i].setCcdMotionThreshold(10);
+        this.bullets[i].setCcdSweptSphereRadius(this.objWidth/4);
+
         this.bullets[i].__dirtyPosition = true;
+        this.launched[i] = true;
         var fuerza = new THREE.Vector3(this.target[i].x*35000, this.target[i].y*35000, this.target[i].z*35000);
         this.bullets[i].applyCentralImpulse( fuerza );
         

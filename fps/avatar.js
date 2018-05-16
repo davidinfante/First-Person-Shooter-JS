@@ -7,8 +7,8 @@ class Avatar {
 
     constructor(camera, controls, scene) {
 
-        var mat = Physijs.createMaterial(new THREE.MeshPhongMaterial ({color: 0x000000}),1,0);
-        this.avatar = new Physijs.BoxMesh (new THREE.BoxGeometry (10,5,10), mat , 1000);
+        var mat = Physijs.createMaterial(new THREE.MeshPhongMaterial ({color: 0x000000}), 1, 0);
+        this.avatar = new THREE.Mesh (new THREE.BoxGeometry (5, 5, 5), mat);
         this.avatar.material.transparent = true;
         this.avatar.material.opacity = 0.0;
         this.avatar.position.y = 2.5;
@@ -17,6 +17,8 @@ class Avatar {
         this.camera = camera;
         this.controls = controls;
         this.activeWeapon = 1;
+        this.goingUp = true;
+        this.recoil = true;
 
         this.avatar.add(this.camera);
     }
@@ -34,43 +36,47 @@ class Avatar {
     }
 
     jump() {
-        jumping = false;
-        var fuerza = new THREE.Vector3(0, 20000, 0);
-        this.avatar.applyCentralImpulse( fuerza );
+        if (this.goingUp) {
+            if (this.avatar.position.y > 15) this.goingUp = false;
+            else this.avatar.position.y += 0.5;
+        } else {
+            if (this.avatar.position.y >= 2 && this.avatar.position.y <= 2.5) {
+                jumping = false;
+                this.goingUp = true;
+            } else this.avatar.position.y -= 0.5;
+        }
     }
 
     updateControls() {
-        controls.getObject().position.x =  this.avatar.position.x;
-        controls.getObject().position.y =  this.avatar.position.y+5;
-        controls.getObject().position.z = this.avatar.position.z;
+        controls.getObject().position.set(this.avatar.position.x, this.avatar.position.y+5, this.avatar.position.z);
     }
 
     moveForward() {
         var target = this.camera.getWorldDirection();
         this.avatar.translateX( target.x );
         this.avatar.translateZ( target.z );
-        this.avatar.__dirtyPosition = true;
+        //this.avatar.__dirtyPosition = true;
     }
 
     moveBackward() {
         var target = this.camera.getWorldDirection();
         this.avatar.translateX( -target.x );
         this.avatar.translateZ( -target.z );
-        this.avatar.__dirtyPosition = true;
+        //this.avatar.__dirtyPosition = true;
     }
 
     moveLeft() {
         var target = this.camera.getWorldDirection();
         this.avatar.translateX( target.z );
         this.avatar.translateZ( -target.x );
-        this.avatar.__dirtyPosition = true;
+        //this.avatar.__dirtyPosition = true;
     }
 
     moveRight() {
         var target = this.camera.getWorldDirection();
         this.avatar.translateX( -target.z );
         this.avatar.translateZ( target.x );
-        this.avatar.__dirtyPosition = true;
+        //this.avatar.__dirtyPosition = true;
     }
 
     changeWeapon() {
@@ -86,6 +92,30 @@ class Avatar {
             this.camera.children[2].material.transparent = false;
             this.camera.children[2].material.opacity = 1.0;
             this.activeWeapon = 0;
+        }
+    }
+
+    animateWeapon() {
+        if (this.activeWeapon == 1) {
+            if (this.recoil) {
+                if (this.camera.children[1].rotation.x >= 0.2) this.recoil = false;
+                else this.camera.children[1].rotation.x += 0.1;
+            } else {
+                if (this.camera.children[1].rotation.x >= 0 && this.camera.children[1].rotation.x <= 0.1) {
+                    disparando = false;
+                    this.recoil = true;
+                } else this.camera.children[1].rotation.x -= 0.1;
+            }
+        } else if (this.activeWeapon == 0) {
+            if (this.recoil) {
+                if (this.camera.children[2].rotation.x >= 1.8) this.recoil = false;
+                else this.camera.children[2].rotation.x += 0.1;
+            } else {
+                if (this.camera.children[2].rotation.x >= 0 && this.camera.children[2].rotation.x <= 0.1) {
+                    disparando = false;
+                    this.recoil = true;
+                } else this.camera.children[2].rotation.x -= 0.1;
+            }
         }
     }
 
@@ -129,8 +159,8 @@ class Avatar {
                 //Escopeta
                 object.children[0].position.set(0, 0, 0);
                 object.children[0].scale.set(0.4, 0.4, 0.4);
-                object.children[0].rotation.set(0.1, -1.2, 0);
-                object.children[0].position.set(2, -1.8 , -6);
+                object.children[0].rotation.set(0.2, -1.2, 0);
+                object.children[0].position.set(2, -1.4 , -6);
                 thatCamera.add(object.children[0]);
                 thatCamera.children[2].material.transparent = true;
                 thatCamera.children[2].material.opacity = 0.0;

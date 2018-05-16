@@ -29,6 +29,7 @@ moveBackward = false;
 moveLeft = false;
 moveRight = false;
 jumping = false;
+disparando = false;
 
 /// It creates the GUI and, optionally, adds statistic information
 /**
@@ -85,10 +86,10 @@ function setMessage (str) {
  * @param event - Mouse information
  */
 function onMouseDown (event) {
-  if(event.buttons == 1)
+  if(event.buttons == 1) {
     scene.dispara();
-  else if(event.buttons == 2)
-    scene.jump();
+    disparando = true;
+  }
 }
 
 /// It processes keyboard information
@@ -154,10 +155,6 @@ function onKeyUp (event) {
     case 39: // right
     case 68: // d
       moveRight = false;
-      break;
-
-    case 32: // space
-      jumping = false;
       break;
   }
 }
