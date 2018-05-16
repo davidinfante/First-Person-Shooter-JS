@@ -19,6 +19,7 @@ class Avatar {
         this.activeWeapon = 1;
         this.goingUp = true;
         this.recoil = true;
+        this.posLimite = 82;
 
         this.avatar.add(this.camera);
     }
@@ -53,29 +54,44 @@ class Avatar {
 
     moveForward() {
         var target = this.camera.getWorldDirection();
-        this.avatar.translateX( target.x );
-        this.avatar.translateZ( target.z );
+        var nextPosition = target.x + this.avatar.position.x;
+        if(nextPosition <= this.posLimite && nextPosition >= -this.posLimite)
+            this.avatar.translateX( target.x );
+        nextPosition = target.z + this.avatar.position.z;
+        if(nextPosition <= this.posLimite && nextPosition >= -this.posLimite)
+            this.avatar.translateZ( target.z );
         //this.avatar.__dirtyPosition = true;
     }
 
     moveBackward() {
         var target = this.camera.getWorldDirection();
-        this.avatar.translateX( -target.x );
-        this.avatar.translateZ( -target.z );
+        var nextPosition = -target.x + this.avatar.position.x;
+        if(nextPosition <= this.posLimite && nextPosition >= -this.posLimite)
+            this.avatar.translateX( -target.x );
+        nextPosition = -target.z + this.avatar.position.z;
+        if(nextPosition <= this.posLimite && nextPosition >= -this.posLimite)
+            this.avatar.translateZ( -target.z );
         //this.avatar.__dirtyPosition = true;
     }
 
     moveLeft() {
         var target = this.camera.getWorldDirection();
-        this.avatar.translateX( target.z );
-        this.avatar.translateZ( -target.x );
-        //this.avatar.__dirtyPosition = true;
+        var nextPosition = target.z + this.avatar.position.x;
+        if(nextPosition <= this.posLimite && nextPosition >= -this.posLimite)
+            this.avatar.translateX( target.z );
+        nextPosition = -target.x + this.avatar.position.z;
+        if(nextPosition <= this.posLimite && nextPosition >= -this.posLimite)
+            this.avatar.translateZ( -target.x );
     }
 
     moveRight() {
         var target = this.camera.getWorldDirection();
-        this.avatar.translateX( -target.z );
-        this.avatar.translateZ( target.x );
+        var nextPosition = -target.z + this.avatar.position.x;
+        if(nextPosition <= this.posLimite && nextPosition >= -this.posLimite)
+            this.avatar.translateX( -target.z );
+        nextPosition = target.z + this.avatar.position.x;
+        if(nextPosition <= this.posLimite && nextPosition >= -this.posLimite)
+            this.avatar.translateZ( target.x );
         //this.avatar.__dirtyPosition = true;
     }
 
