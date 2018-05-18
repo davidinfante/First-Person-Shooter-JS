@@ -1,4 +1,3 @@
-
 /// The Enemies class
 /**
  * @author David Infante, Jose Ariza

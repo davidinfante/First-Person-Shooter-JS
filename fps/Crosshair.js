@@ -1,5 +1,5 @@
 /**
- * @author David Infante
+ * @author David Infante, Jose Ariza
  * 
  */
 

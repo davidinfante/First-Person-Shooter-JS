@@ -1,4 +1,3 @@
-
 /// The Map class
 /**
  * @author David Infante, Jose Ariza

@@ -1,4 +1,4 @@
-// Hola fidel
+/// The Script
 /**
  * @author David Infante, Jose Ariza
  * 
