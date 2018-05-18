@@ -15,6 +15,7 @@ class TheScene extends Physijs.Scene {
     this.createCamera (renderer);
     this.avatar = null;
     this.map = null;
+    this.enemies = null;
     this.skybox = null;
     this.Bullets = null;
     this.index = 0;
@@ -92,12 +93,15 @@ class TheScene extends Physijs.Scene {
     this.bullets = new Bullets(this.maxBullets, this, (new THREE.MeshPhongMaterial ({map: textura})));
 
     //Creates the map
-    var loader = new THREE.TextureLoader();
-    var textura = loader.load ("imgs/wood.jpg");
-    var mat = Physijs.createMaterial(new THREE.MeshPhongMaterial ({map: textura}),1,0);
     this.map = new Map();
     for (var i = 0; i < this.map.getMapSize(); ++i) {
       this.add(this.map.getMap(i));
+    }
+
+    //Creates the enemies
+    this.enemies = new Enemies();
+    for (var i = 0; i < this.enemies.getEnemiesSize(); ++i) {
+      this.add(this.enemies.getEnemies(i));
     }
 
     return model;
