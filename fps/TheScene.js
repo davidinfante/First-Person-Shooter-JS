@@ -62,6 +62,31 @@ class TheScene extends Physijs.Scene {
     ammo.style.fontSize = 50 + 'px';
     ammo.style.color = "white";
     document.body.appendChild(ammo);
+
+    var finalScore = document.createElement('div');
+    finalScore.id = "finalScore";
+    finalScore.style.position = 'absolute';
+    finalScore.style.width = 1;
+    finalScore.style.height = 1;
+    finalScore.innerHTML = "Puntuación final: " + this.score;
+    finalScore.style.top = 400 + 'px';
+    finalScore.style.left = 750 + 'px';
+    finalScore.style.fontSize = 50 + 'px';
+    finalScore.style.color = "white";
+    finalScore.style.display = "none";
+    document.body.appendChild(finalScore);
+    var restart = document.createElement('div');
+    restart.id = "restart";
+    restart.style.position = 'absolute';
+    restart.style.width = 1;
+    restart.style.height = 1;
+    restart.innerHTML = "Pulsa la tecla P para volver a jugar";
+    restart.style.top = 450 + 'px';
+    restart.style.left = 600 + 'px';
+    restart.style.fontSize = 50 + 'px';
+    restart.style.color = "white";
+    restart.style.display = "none";
+    document.body.appendChild(restart);
   }
 
   updateHUD() {
@@ -172,28 +197,8 @@ class TheScene extends Physijs.Scene {
     moveRight = false;
     jumping = false;
 
-    var finalScore = document.createElement('div');
-    finalScore.id = "finalScore";
-    finalScore.style.position = 'absolute';
-    finalScore.style.width = 1;
-    finalScore.style.height = 1;
-    finalScore.innerHTML = "Puntuación final: " + this.score;
-    finalScore.style.top = 400 + 'px';
-    finalScore.style.left = 750 + 'px';
-    finalScore.style.fontSize = 50 + 'px';
-    finalScore.style.color = "white";
-    document.body.appendChild(finalScore);
-    var restart = document.createElement('div');
-    restart.id = "restart";
-    restart.style.position = 'absolute';
-    restart.style.width = 1;
-    restart.style.height = 1;
-    restart.innerHTML = "Pulsa la tecla P para volver a jugar";
-    restart.style.top = 450 + 'px';
-    restart.style.left = 600 + 'px';
-    restart.style.fontSize = 50 + 'px';
-    restart.style.color = "white";
-    document.body.appendChild(restart);
+    document.getElementById("finalScore").style.display = 'inherit';
+    document.getElementById("restart").style.display = 'inherit';
   }
   
   /// 
