@@ -5,7 +5,7 @@
  */
 class Avatar {
 
-    constructor(camera, controls, scene) {
+    constructor(camera, scene) {
 
         var mat = Physijs.createMaterial(new THREE.MeshPhongMaterial ({color: 0x000000}), 1, 0);
         this.avatar = new THREE.Mesh (new THREE.BoxGeometry (5, 5, 5), mat);
@@ -32,6 +32,10 @@ class Avatar {
         pos.y = this.avatar.position.y;
         pos.z = this.avatar.position.z;
         return pos;
+    }
+
+    setInitialPosition() {
+        this.avatar.position.set(0, 2.5, 0);
     }
 
     getActiveWeapon() {

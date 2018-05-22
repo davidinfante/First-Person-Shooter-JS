@@ -30,23 +30,17 @@ moveLeft = false;
 moveRight = false;
 jumping = false;
 disparando = false;
+enableControls = true; //habilita la entrada de datos por ratón y teclado
+
 
 /// It creates the GUI and, optionally, adds statistic information
 /**
  * @param withStats - A boolean to show the statictics or not
  */
 function createGUI (withStats) {
-  GUIcontrols = new function() {
-    this.axis = false;
-  }
-
   var gui = new dat.GUI();
 
-  var axisLights = gui.addFolder ('Axis and Lights');
-    axisLights.add(GUIcontrols, 'axis').name('Axis on/off :');
-
-    if (withStats)
-      stats = initStats();
+  if (withStats) stats = initStats();
 }
 
 /// It adds statistics information to a previously created Div
@@ -82,9 +76,11 @@ function setMessage (str) {
  * @param event - Mouse information
  */
 function onMouseDown (event) {
-  if(event.buttons == 1) {
-    scene.dispara();
-    disparando = true;
+  if (enableControls) {
+    if(event.buttons == 1) {
+      scene.dispara();
+      disparando = true;
+    }
   }
 }
 
@@ -93,36 +89,41 @@ function onMouseDown (event) {
  * @param event - Keyboard information
  */
 function onKeyDown (event) {
-  switch ( event.keyCode ) {
+  if (enableControls) {
+    switch ( event.keyCode ) {
 
-    case 38: // up
-    case 87: // w
-      moveForward = true;
-      break;
+      case 38: // up
+      case 87: // w
+        moveForward = true;
+        break;
 
-    case 37: // left
-    case 65: // a
-      moveLeft = true;
-      break;
+      case 37: // left
+      case 65: // a
+        moveLeft = true;
+        break;
 
-    case 40: // down
-    case 83: // s
-      moveBackward = true;
-      break;
+      case 40: // down
+      case 83: // s
+        moveBackward = true;
+        break;
 
-    case 39: // right
-    case 68: // d
-      moveRight = true;
-      break;
+      case 39: // right
+      case 68: // d
+        moveRight = true;
+        break;
 
-    case 32: // space
-      jumping = true;
-      break;
+      case 32: // space
+        jumping = true;
+        break;
 
-    case 81: //q
-      if (!disparando) scene.changeWeapon();
-      break;
+      case 81: // q
+        if (!disparando) scene.changeWeapon();
+        break;
+    }
+  }
 
+  if (event.keyCode == 80 && enableControls == false) { // p
+    scene.newGame();
   }
 }
 
@@ -131,27 +132,28 @@ function onKeyDown (event) {
  * @param event - Keyboard information
  */
 function onKeyUp (event) {
-  switch( event.keyCode ) {
+  if (enableControls) {
+    switch( event.keyCode ) {
+      case 38: // up
+      case 87: // w
+        moveForward = false;
+        break;
 
-    case 38: // up
-    case 87: // w
-      moveForward = false;
-      break;
+      case 37: // left
+      case 65: // a
+        moveLeft = false;
+        break;
 
-    case 37: // left
-    case 65: // a
-      moveLeft = false;
-      break;
+      case 40: // down
+      case 83: // s
+        moveBackward = false;
+        break;
 
-    case 40: // down
-    case 83: // s
-      moveBackward = false;
-      break;
-
-    case 39: // right
-    case 68: // d
-      moveRight = false;
-      break;
+      case 39: // right
+      case 68: // d
+        moveRight = false;
+        break;
+    }
   }
 }
 
@@ -161,7 +163,9 @@ function onKeyUp (event) {
  * @param event - Mouse information
  */
 function onMouseWheel (event) {
-  if (!disparando) scene.changeWeapon();
+  if (enableControls) {
+    if (!disparando) scene.changeWeapon();
+  }
 }
 
 /// It processes the window size changes
@@ -191,7 +195,6 @@ function render() {
   stats.update();
 
   var delta = clock.getDelta();
-  //scene.getCameraControls().update(delta);
 
   scene.animate(GUIcontrols, delta);
   renderer.render(scene, scene.getCamera());

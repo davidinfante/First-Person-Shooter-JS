@@ -38,7 +38,7 @@ class Map {
     this.map.push(bullets3);
     ++this.map_size;
 
-    var fenceS4 = new Physijs.BoxMesh (new THREE.BoxGeometry (200, 10, 20, 1, 1, 1), mat, 0);
+    var fenceS4 = new Physijs.BoxMesh (new THREE.BoxGeometry (220, 10, 20, 1, 1, 1), mat, 0);
     fenceS4.applyMatrix (new THREE.Matrix4().makeTranslation (0, 2.5, 100));
     fenceS4.receiveShadow = true;
     fenceS4.autoUpdateMatrix = false;

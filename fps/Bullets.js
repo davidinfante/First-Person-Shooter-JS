@@ -69,20 +69,26 @@ class Bullets {
 
         this.bullets[i].__dirtyPosition = true;
         this.launched[i] = true;
-        var fuerza = new THREE.Vector3(this.target[i].x*35000, this.target[i].y*35000, this.target[i].z*35000);
-        this.bullets[i].applyCentralImpulse( fuerza );
-        
+
+        var potencia = null;
+        var sound = null;
+
         if (weapon == 0) {
-            var sound = new Howl({
+            potencia = 35000;
+            sound = new Howl({
               src: ['sounds/m4a1_s.mp3'], volume: 0.1
             });
-            sound.play();
-        } else if (weapon == 1) {
-            var sound = new Howl({
+        }
+        else if (weapon == 1) {
+            potencia = 45000;
+            sound = new Howl({
               src: ['sounds/escopeta.mp3'], volume: 0.1
             });
-            sound.play();
         }
+
+        var fuerza = new THREE.Vector3(this.target[i].x*potencia, this.target[i].y*potencia, this.target[i].z*potencia);
+        this.bullets[i].applyCentralImpulse( fuerza );
         
+        sound.play();        
     }
 }
