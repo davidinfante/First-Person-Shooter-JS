@@ -26,6 +26,18 @@ class Enemies {
     this.enemyType.push("Big");
     this.dead.push(false);
     this.enemies.push(objetivo1);
+    this.scene.add(objetivo1);
+    this.addBulletListener(this.enemies.length - 1);
+
+    var objetivo2 = new Physijs.BoxMesh (new THREE.BoxGeometry (7.5, 10, 2.5, 1, 1, 1), this.mat, 1);
+    objetivo2.applyMatrix (new THREE.Matrix4().makeTranslation (5, 11, -210));
+    objetivo2.receiveShadow = true;
+    objetivo2.autoUpdateMatrix = false;
+    this.enemyType.push("Big");
+    this.dead.push(false);
+    this.enemies.push(objetivo2);
+    this.scene.add(objetivo2);
+    this.addBulletListener(this.enemies.length - 1);
 
     /*
     var objetivo2 = new Physijs.BoxMesh (new THREE.BoxGeometry (7.5, 10, 2.5, 1, 1, 1), mat, 1);
@@ -40,15 +52,7 @@ class Enemies {
     return this;
   }
 
-  sleep(milliseconds) {
-    var start = new Date().getTime();
-    for (var i = 0; i < 1e7; i++) {
-      if ((new Date().getTime() - start) > milliseconds){
-        break;
-      }
-    }
-  }
-
+  /*
   newEnemy(that){
     var objetivo1 = new Physijs.BoxMesh (new THREE.BoxGeometry (7.5, 10, 2.5, 1, 1, 1), that.mat, 1);
     objetivo1.applyMatrix (new THREE.Matrix4().makeTranslation (5, 11, -210));
@@ -59,20 +63,22 @@ class Enemies {
     that.enemies.push(objetivo1);
     scene.add(objetivo1);
   }
+  */
 
   addBulletListener(i){
     var that = this;
     this.enemies[i].addEventListener ( 'collision' , function (elOtroObjeto , velocidad , rotacion , normal) { 
-      if(elOtroObjeto.geometry.type == "SphereGeometry" && !that.dead[i]){
+      console.log(elOtroObjeto._physijs.mass);
+      if(elOtroObjeto._physijs.mass > 0 && !that.dead[i]){
+        that.dead[i] = true;
         var sound = new Howl({
           src: ['sounds/death.mp3'], volume: 0.3
         });
-        that.dead[i] = true;
         sound.play();
         if(that.enemyType[i] == "Big"){
           scene.updateScore(10);
         }
-        that.newEnemy(that);
+        //that.newEnemy(that);
       }
     });
   }

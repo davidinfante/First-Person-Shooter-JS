@@ -202,11 +202,7 @@ class TheScene extends Physijs.Scene {
    *
    */
   createEnemies() {
-    this.enemies = new Enemies(scene);
-    for (var i = 0; i < this.enemies.getEnemiesSize(); ++i) {
-      this.add(this.enemies.getEnemies(i));
-      this.enemies.addBulletListener(i);
-    }
+    this.enemies = new Enemies(this);
   }
 
   endGame() {
