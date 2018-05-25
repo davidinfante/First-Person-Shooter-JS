@@ -24,7 +24,7 @@ class Map {
     this.map.push(start1);
     ++this.map_size;
 
-    var enemies2 = new Physijs.BoxMesh (new THREE.BoxGeometry (200, 8, 400, 1, 1, 1), mat, 0);
+    var enemies2 = new Physijs.BoxMesh (new THREE.BoxGeometry (300, 8, 400, 1, 1, 1), mat, 0);
     enemies2.applyMatrix (new THREE.Matrix4().makeTranslation (0, 2, -300));
     enemies2.receiveShadow = true;
     enemies2.autoUpdateMatrix = false;

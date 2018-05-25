@@ -246,6 +246,7 @@ class TheScene extends Physijs.Scene {
 
     this.avatar.updateControls();
 
+    this.enemies.animate(1);
 
     if (this.actualAmmo == 0) {
       this.endGame();
