@@ -77,7 +77,7 @@ function setMessage (str) {
  */
 function onMouseDown (event) {
   if (enableControls) {
-    if(event.buttons == 1) {
+    if(event.buttons == 1 && blocker.style.display == 'none') {
       scene.dispara();
       disparando = true;
     }
@@ -209,6 +209,7 @@ $(function () {
 
 
   var instructions = document.getElementById( 'instructions' );
+  var title = document.getElementById('title');
   var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
 
   if ( havePointerLock ) {
@@ -222,6 +223,8 @@ $(function () {
         controlsEnabled = true;
         controls.enabled = true;
 
+        enableControls = true;
+
         blocker.style.display = 'none';
 
       } else {
@@ -231,6 +234,12 @@ $(function () {
         blocker.style.display = 'block';
 
         instructions.style.display = '';
+
+        title.innerHTML = "PAUSA";
+        //instructions.innerHTML = "";
+
+        enableControls = false;
+        controls.enabled = false;
 
       }
 

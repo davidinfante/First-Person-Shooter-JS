@@ -62,19 +62,31 @@ class TheScene extends Physijs.Scene {
     ammo.style.fontSize = 50 + 'px';
     ammo.style.color = "white";
     document.body.appendChild(ammo);
-
+    /*
     var finalScore = document.createElement('div');
     finalScore.id = "finalScore";
-    finalScore.style.position = 'absolute';
-    finalScore.style.width = 1;
-    finalScore.style.height = 1;
-    finalScore.innerHTML = "Puntuación final: " + this.score;
-    finalScore.style.top = 400 + 'px';
-    finalScore.style.left = 750 + 'px';
-    finalScore.style.fontSize = 50 + 'px';
-    finalScore.style.color = "white";
-    finalScore.style.display = "none";
+    finalScore.style.width = "100%";
+    finalScore.style.height = "100%";
+    finalScore.style.display =  "-webkit-box";
+    finalScore.style.display = "-moz-box";
+    finalScore.style.display = "box";
+  
+    finalScore.style.-webkit-box-orient =  "horizontal";
+    finalScore.style.-moz-box-orient = "horizontal";
+    finalScore.style.box-orient = "horizontal";
+    finalScore.style.-webkit-box-pack = "center";
+    finalScore.style.-moz-box-pack = "center";
+    finalScore.style.box-pack = "center";
+    finalScore.style.-webkit-box-align = "center";
+    finalScore.style.-moz-box-align = "center";
+    finalScore.style.box-align = "center";
+    finalScore.style.color = "#ffffff";
+    finalScore.style.text-align = "center";
+    finalScore.style.cursor = "pointer";
+
     document.body.appendChild(finalScore);
+*/
+    /*
     var restart = document.createElement('div');
     restart.id = "restart";
     restart.style.position = 'absolute';
@@ -87,11 +99,18 @@ class TheScene extends Physijs.Scene {
     restart.style.color = "white";
     restart.style.display = "none";
     document.body.appendChild(restart);
+    */
   }
 
-  updateHUD() {
+  updateAmmo() {
     var text = document.getElementById("ammo");
     text.innerHTML = "Munición: " + this.actualAmmo;
+  }
+
+  updateScore(newScore){
+    var text = document.getElementById("score");
+    this.score += newScore;
+    text.innerHTML = "Puntuacion: " + this.score;
   }
 
   /// It creates the camera and adds it to the graph
@@ -120,6 +139,7 @@ class TheScene extends Physijs.Scene {
       this.bullets.dispara(this.index, this.avatar.getPosition(), this.camera.getWorldDirection(), this.avatar.getActiveWeapon());
       this.index++;
       this.actualAmmo--;
+      this.updateAmmo();
     }
   }
   
@@ -182,23 +202,30 @@ class TheScene extends Physijs.Scene {
    *
    */
   createEnemies() {
-    this.enemies = new Enemies();
+    this.enemies = new Enemies(scene);
     for (var i = 0; i < this.enemies.getEnemiesSize(); ++i) {
       this.add(this.enemies.getEnemies(i));
+      this.enemies.addBulletListener(i);
     }
   }
 
   endGame() {
     enableControls = false;
     controls.enabled = false;
+    
     moveForward = false;
     moveBackward = false;
     moveLeft = false;
     moveRight = false;
     jumping = false;
 
-    document.getElementById("finalScore").style.display = 'inherit';
-    document.getElementById("restart").style.display = 'inherit';
+    blocker.style.display = 'block';
+    instructions.style.display = '';
+
+    instructions.innerHTML = "Puntuacion total: " + this.score;
+
+    //document.getElementById("instructions").style.display = 'inherit';
+    //document.getElementById("restart").style.display = 'inherit';
   }
   
   /// 
@@ -223,7 +250,6 @@ class TheScene extends Physijs.Scene {
 
     this.avatar.updateControls();
 
-    this.updateHUD();
 
     if (this.actualAmmo == 0) {
       this.endGame();
@@ -260,17 +286,19 @@ class TheScene extends Physijs.Scene {
   }
   
   newGame() {
-    document.getElementById("finalScore").style.display = 'none';
-    document.getElementById("restart").style.display = 'none';
+    //document.getElementById("finalScore").style.display = 'none';
+    //document.getElementById("restart").style.display = 'none';
 
     this.avatar.setInitialPosition();
     this.actualAmmo = 20;
+    this.updateAmmo();
     this.score = 0;
     for (var i = 0; i < this.enemies.getEnemiesSize(); ++i) {
       this.remove(this.enemies.getEnemies(i));
     }
     this.createEnemies();
 
+    blocker.style.display = 'none';
     enableControls = true;
     controls.enabled = true;
   }
