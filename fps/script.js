@@ -235,8 +235,9 @@ $(function () {
 
         instructions.style.display = '';
 
-        title.innerHTML = "PAUSA";
-        //instructions.innerHTML = "";
+        //title.innerHTML = "PAUSA";
+        instructions.style.fontSize = "50px";
+        instructions.innerHTML = "PAUSA";
 
         enableControls = false;
         controls.enabled = false;
