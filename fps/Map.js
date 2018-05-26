@@ -15,7 +15,7 @@ class Map {
     var textura = loader.load ("imgs/wood.jpg");
     var diana = loader.load ("imgs/diana.png");
 
-    var mat = Physijs.createMaterial(new THREE.MeshPhongMaterial ({map: textura}),1,0);
+    var mat = Physijs.createMaterial(new THREE.MeshPhongMaterial ({map: textura}),0,0);
     
     var start1 = new Physijs.BoxMesh (new THREE.BoxGeometry (200, 0.0, 200, 1, 1, 1), mat, 0);
     start1.applyMatrix (new THREE.Matrix4().makeTranslation (0, 0, 0));

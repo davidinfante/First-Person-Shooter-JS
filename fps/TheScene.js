@@ -20,8 +20,9 @@ class TheScene extends Physijs.Scene {
     this.Bullets = null;
     this.index = 0;
     this.maxBullets = 20;
-    this.actualAmmo = 20; //Balas totales antes de acabar el juego
+    this.actualAmmo = 40; //Balas totales antes de acabar el juego
     this.score = 0;
+    this.level = 1;
 
     this.createHUD();
 
@@ -29,7 +30,7 @@ class TheScene extends Physijs.Scene {
     this.avatar.loadWeapons();
     this.place = this.createPlace();
     this.createBullets();
-    this.createEnemies();
+    this.createEnemies(this.level);
 
 
     this.ambientLight = null;
@@ -51,6 +52,7 @@ class TheScene extends Physijs.Scene {
     score.style.fontSize = 50 + 'px';
     score.style.color = "white";
     document.body.appendChild(score);
+
     var ammo = document.createElement('div');
     ammo.id = "ammo";
     ammo.style.position = 'absolute';
@@ -62,6 +64,19 @@ class TheScene extends Physijs.Scene {
     ammo.style.fontSize = 50 + 'px';
     ammo.style.color = "white";
     document.body.appendChild(ammo);
+
+    var level = document.createElement('div');
+    level.id = "level";
+    level.style.position = 'absolute';
+    level.style.width = 1;
+    level.style.height = 1;
+    level.innerHTML = "Nivel: " + this.level;
+    level.style.top = 150 + 'px';
+    level.style.left = 50 + 'px';
+    level.style.fontSize = 50 + 'px';
+    level.style.color = "white";
+    document.body.appendChild(level);
+
     /*
     var finalScore = document.createElement('div');
     finalScore.id = "finalScore";
@@ -111,6 +126,11 @@ class TheScene extends Physijs.Scene {
     var text = document.getElementById("score");
     this.score += newScore;
     text.innerHTML = "Puntuacion: " + this.score;
+  }
+
+  updateLevel() {
+    var level = document.getElementById("level");
+    level.innerHTML = "Nivel: " + this.level;
   }
 
   /// It creates the camera and adds it to the graph
@@ -202,7 +222,7 @@ class TheScene extends Physijs.Scene {
    *
    */
   createEnemies() {
-    this.enemies = new Enemies(this);
+    this.enemies = new Enemies(this, this.level);
   }
 
   endGame() {
@@ -282,18 +302,21 @@ class TheScene extends Physijs.Scene {
     this.camera.updateProjectionMatrix();
   }
   
-  newGame() {
+  newGame(level) {
     //document.getElementById("finalScore").style.display = 'none';
     //document.getElementById("restart").style.display = 'none';
 
+    this.level = level;
     this.avatar.setInitialPosition();
-    this.actualAmmo = 20;
+    //this.actualAmmo = 20;
     this.updateAmmo();
-    this.score = 0;
+    this.updateLevel();
+    //this.score = 0;
     for (var i = 0; i < this.enemies.getEnemiesSize(); ++i) {
       this.remove(this.enemies.getEnemies(i));
     }
     this.createEnemies();
+    console.log(this.level);
 
     blocker.style.display = 'none';
     enableControls = true;
