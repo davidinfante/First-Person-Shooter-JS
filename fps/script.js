@@ -123,7 +123,7 @@ function onKeyDown (event) {
   }
 
   if (event.keyCode == 80 && enableControls == false) { // p
-    scene.newGame();
+    scene.newGame(1);
   }
 }
 
@@ -229,7 +229,6 @@ $(function () {
 
       } else {
 
-        controls.enabled = false;
 
         blocker.style.display = 'block';
 

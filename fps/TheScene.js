@@ -20,7 +20,7 @@ class TheScene extends Physijs.Scene {
     this.Bullets = null;
     this.index = 0;
     this.maxBullets = 20;
-    this.actualAmmo = 40; //Balas totales antes de acabar el juego
+    this.actualAmmo = 10; //Balas totales antes de acabar el juego
     this.score = 0;
     this.level = 1;
 
@@ -237,6 +237,7 @@ class TheScene extends Physijs.Scene {
 
     blocker.style.display = 'block';
     instructions.style.display = '';
+    instructions.style.fontSize = "50px";
 
     instructions.innerHTML = "Puntuacion total: " + this.score;
 
@@ -306,7 +307,9 @@ class TheScene extends Physijs.Scene {
     //document.getElementById("finalScore").style.display = 'none';
     //document.getElementById("restart").style.display = 'none';
 
-    this.level = level;
+    blocker.style.display = 'none';
+    enableControls = true;
+    controls.enabled = true;
     this.avatar.setInitialPosition();
     //this.actualAmmo = 20;
     this.updateAmmo();
@@ -316,11 +319,8 @@ class TheScene extends Physijs.Scene {
       this.remove(this.enemies.getEnemies(i));
     }
     this.createEnemies();
-    console.log(this.level);
 
-    blocker.style.display = 'none';
-    enableControls = true;
-    controls.enabled = true;
+
   }
 
 }
