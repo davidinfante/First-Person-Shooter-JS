@@ -80,7 +80,7 @@ class Bullets {
             });
         }
         else if (weapon == 1) {
-            potencia = 45000;
+            potencia = 50000;
             sound = new Howl({
               src: ['sounds/escopeta.mp3'], volume: 0.1
             });

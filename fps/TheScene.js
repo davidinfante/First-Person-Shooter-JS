@@ -20,7 +20,7 @@ class TheScene extends Physijs.Scene {
     this.Bullets = null;
     this.index = 0;
     this.maxBullets = 20;
-    this.actualAmmo = 10; //Balas totales antes de acabar el juego
+    this.actualAmmo = 40; //Balas totales antes de acabar el juego
     this.score = 0;
     this.level = 1;
 
@@ -76,45 +76,6 @@ class TheScene extends Physijs.Scene {
     level.style.fontSize = 50 + 'px';
     level.style.color = "white";
     document.body.appendChild(level);
-
-    /*
-    var finalScore = document.createElement('div');
-    finalScore.id = "finalScore";
-    finalScore.style.width = "100%";
-    finalScore.style.height = "100%";
-    finalScore.style.display =  "-webkit-box";
-    finalScore.style.display = "-moz-box";
-    finalScore.style.display = "box";
-  
-    finalScore.style.-webkit-box-orient =  "horizontal";
-    finalScore.style.-moz-box-orient = "horizontal";
-    finalScore.style.box-orient = "horizontal";
-    finalScore.style.-webkit-box-pack = "center";
-    finalScore.style.-moz-box-pack = "center";
-    finalScore.style.box-pack = "center";
-    finalScore.style.-webkit-box-align = "center";
-    finalScore.style.-moz-box-align = "center";
-    finalScore.style.box-align = "center";
-    finalScore.style.color = "#ffffff";
-    finalScore.style.text-align = "center";
-    finalScore.style.cursor = "pointer";
-
-    document.body.appendChild(finalScore);
-*/
-    /*
-    var restart = document.createElement('div');
-    restart.id = "restart";
-    restart.style.position = 'absolute';
-    restart.style.width = 1;
-    restart.style.height = 1;
-    restart.innerHTML = "Pulsa la tecla P para volver a jugar";
-    restart.style.top = 450 + 'px';
-    restart.style.left = 600 + 'px';
-    restart.style.fontSize = 50 + 'px';
-    restart.style.color = "white";
-    restart.style.display = "none";
-    document.body.appendChild(restart);
-    */
   }
 
   updateAmmo() {
@@ -239,10 +200,7 @@ class TheScene extends Physijs.Scene {
     instructions.style.display = '';
     instructions.style.fontSize = "50px";
 
-    instructions.innerHTML = "Puntuacion total: " + this.score;
-
-    //document.getElementById("instructions").style.display = 'inherit';
-    //document.getElementById("restart").style.display = 'inherit';
+    instructions.innerHTML = "Puntuacion total: " + this.score + ", pulsa la tecla P para jugar otra partida.";
   }
   
   /// 
@@ -267,7 +225,7 @@ class TheScene extends Physijs.Scene {
 
     this.avatar.updateControls();
 
-    this.enemies.animate(1);
+    this.enemies.animate();
 
     if (this.actualAmmo == 0) {
       this.endGame();
@@ -303,24 +261,33 @@ class TheScene extends Physijs.Scene {
     this.camera.updateProjectionMatrix();
   }
   
-  newGame(level) {
-    //document.getElementById("finalScore").style.display = 'none';
-    //document.getElementById("restart").style.display = 'none';
-
-    blocker.style.display = 'none';
-    enableControls = true;
-    controls.enabled = true;
+  newLevel() {
     this.avatar.setInitialPosition();
-    //this.actualAmmo = 20;
-    this.updateAmmo();
+
     this.updateLevel();
-    //this.score = 0;
+
     for (var i = 0; i < this.enemies.getEnemiesSize(); ++i) {
       this.remove(this.enemies.getEnemies(i));
     }
     this.createEnemies();
+  }
 
+  newGame() {
+    blocker.style.display = 'none';
+    enableControls = true;
+    controls.enabled = true;
+    this.avatar.setInitialPosition();
+    this.actualAmmo = 40;
+    this.updateAmmo();
+    this.score = 0;
+    this.updateScore(0);
+    this.level = 1;
+    this.updateLevel();
 
+    for (var i = 0; i < this.enemies.getEnemiesSize(); ++i) {
+      this.remove(this.enemies.getEnemies(i));
+    }
+    this.createEnemies();
   }
 
 }

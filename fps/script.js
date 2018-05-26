@@ -123,7 +123,7 @@ function onKeyDown (event) {
   }
 
   if (event.keyCode == 80 && enableControls == false) { // p
-    scene.newGame(1);
+    scene.newGame();
   }
 }
 
@@ -290,8 +290,6 @@ $(function () {
   window.addEventListener("keyup", onKeyUp, true);
   window.addEventListener ("mousewheel", onMouseWheel, true);   // For Chrome an others
   window.addEventListener ("DOMMouseScroll", onMouseWheel, true); // For Firefox
-
-  //raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
 
   // create a scene, that will hold all our elements such as objects, cameras and lights.
   scene = new TheScene (renderer.domElement, camera);
