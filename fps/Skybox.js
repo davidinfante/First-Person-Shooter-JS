@@ -1,4 +1,3 @@
-
 /// The Skybox class
 /**
  * @author David Infante, Jose Ariza
