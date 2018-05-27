@@ -22,6 +22,7 @@ class TheScene extends Physijs.Scene {
     this.maxBullets = 20;
     this.actualAmmo = 40; //Balas totales antes de acabar el juego
     this.score = 0;
+    this.lastScore = 0;
     this.level = 1;
 
     this.createHUD();
@@ -264,12 +265,16 @@ class TheScene extends Physijs.Scene {
   newLevel() {
     this.avatar.setInitialPosition();
 
+    if(this.score - this.lastScore != 40)
+      this.score = this.lastScore + 40;
+
     this.updateLevel();
 
     for (var i = 0; i < this.enemies.getEnemiesSize(); ++i) {
       this.remove(this.enemies.getEnemies(i));
     }
     this.createEnemies();
+    this.lastScore = this.score;
   }
 
   newGame() {

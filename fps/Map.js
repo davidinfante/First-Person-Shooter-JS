@@ -12,10 +12,11 @@ class Map {
     this.map = [];
 
     var loader = new THREE.TextureLoader();
-    var textura = loader.load ("imgs/metal.jpg");
-    var diana = loader.load ("imgs/diana.png");
+    var texturaMetal = loader.load ("imgs/metal.jpg");
+    var texturaBase = loader.load("imgs/roca.jpg");
 
-    var mat = Physijs.createMaterial(new THREE.MeshPhongMaterial ({map: textura}),0,0);
+    var mat = Physijs.createMaterial(new THREE.MeshPhongMaterial ({map: texturaMetal}),0,0);
+    var matBase = Physijs.createMaterial(new THREE.MeshPhongMaterial ({map: texturaBase}),0,0);
     
     var start1 = new Physijs.BoxMesh (new THREE.BoxGeometry (200, 0.0, 200, 1, 1, 1), mat, 0);
     start1.applyMatrix (new THREE.Matrix4().makeTranslation (0, 0, 0));
@@ -66,7 +67,13 @@ class Map {
     this.map.push(fenceN7);
     ++this.map_size;
 
-    //More parts of the map
+    var mountain = new Physijs.CylinderMesh (new THREE.CylinderGeometry (50, 500, 50, 5, 1), matBase, 0);
+    mountain.applyMatrix (new THREE.Matrix4().makeTranslation (0, -30, -50));
+    mountain.receiveShadow = true;
+    mountain.autoUpdateMatrix = false;
+    this.map.push(mountain);
+    ++this.map_size;
+
 
     return this;
   }

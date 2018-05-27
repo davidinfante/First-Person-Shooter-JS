@@ -61,10 +61,10 @@ class Avatar {
     moveForward() {
         var target = this.camera.getWorldDirection();
         var nextPosition = target.x + this.avatar.position.x;
-        if(nextPosition <= this.posLimite && nextPosition >= -this.posLimite)
+        //if(nextPosition <= this.posLimite && nextPosition >= -this.posLimite)
             this.avatar.translateX( target.x );
         nextPosition = target.z + this.avatar.position.z;
-        if(nextPosition <= this.posLimite && nextPosition >= -this.posLimite)
+        //if(nextPosition <= this.posLimite && nextPosition >= -this.posLimite)
             this.avatar.translateZ( target.z );
     }
 
