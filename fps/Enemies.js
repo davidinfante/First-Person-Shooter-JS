@@ -93,7 +93,6 @@ class Enemies {
     var that = this;
     this.enemies[i].addEventListener ( 'collision' , function (elOtroObjeto , velocidad , rotacion , normal) {
       if (that.countCollitions[i] == 1) {
-        that.countCollitions[i]++;
         var sound = new Howl({
           src: ['sounds/death.mp3'], volume: 0.3
         });

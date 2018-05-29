@@ -208,7 +208,7 @@ class TheScene extends Physijs.Scene {
   /**
    * @controls - The GUI information
    */
-  animate (GUIcontrols, delta) {
+  animate () {
     this.simulate();
 
     if (moveForward) this.avatar.moveForward();

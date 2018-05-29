@@ -9,16 +9,11 @@
 /// The scene graph
 scene = null;
 
-/// The GUI information
-GUIcontrols = null;
-
 /// The object for the statistics
 stats = null;
 
 /// A boolean to know if the left button of the mouse is down
 mouseDown = false;
-
-clock = null;
 
 renderer = null;
 
@@ -194,9 +189,7 @@ function render() {
 
   stats.update();
 
-  var delta = clock.getDelta();
-
-  scene.animate(GUIcontrols, delta);
+  scene.animate();
   renderer.render(scene, scene.getCamera());
   scene.simulate();
 }
@@ -295,8 +288,6 @@ $(function () {
   scene = new TheScene (renderer.domElement, camera);
   controls = new THREE.PointerLockControls (camera);
   scene.add( controls.getObject() );
-
-  clock = new THREE.Clock();
 
   createGUI(true);
 
