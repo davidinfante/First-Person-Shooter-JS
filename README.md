@@ -1,6 +1,6 @@
 # First Person Shooter with JS
 
-### A simple FPS game with JavaScript using THREE.js, Physijs
+### A simple FPS game made in JavaScript using THREE.js, Physijs... with the purpose of learning a little bit of these libraries
 
 ## How to use it in Windows
 
