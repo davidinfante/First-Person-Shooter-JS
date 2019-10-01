@@ -201,7 +201,7 @@ class TheScene extends Physijs.Scene {
     instructions.style.display = '';
     instructions.style.fontSize = "50px";
 
-    instructions.innerHTML = "Puntuacion total: " + this.score + ", pulsa la tecla P para jugar otra partida.";
+    instructions.innerHTML = `Puntuación total: ${this.score}, pulsa la tecla P para jugar otra partida.`;
   }
   
   /// 
