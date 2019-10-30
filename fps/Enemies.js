@@ -17,26 +17,18 @@ class Enemies {
 
     this.scene = scene;
 
-    if(level == 1)
-      this.force = 5;
-    else if (level == 2)
-      this.force = 10;
-    else if (level == 3)
-      this.force = 20;
-    else if (level == 4)
-      this.force = 30;
-    else if (level == 5)
-      this.force = 50;
-    else if (level == 6)
-      this.force = 70;
-    else if (level == 7)
-      this.force = 90;
-    else if (level == 8)
-      this.force = 100;
-    else if (level == 9)
-      this.force = 120;
-    else
-      this.force = 150;
+    switch (level) {
+      case 1: this.force = 5; break;
+      case 2: this.force = 10; break;
+      case 3: this.force = 20; break;
+      case 4: this.force = 30; break;
+      case 5: this.force = 50; break;
+      case 6: this.force = 70; break;
+      case 7: this.force = 90; break;
+      case 8: this.force = 100; break;
+      case 9: this.force = 120; break;
+      default: this.force = 150; break;
+    }
 
     var loader = new THREE.TextureLoader();
     var diana = loader.load ("imgs/diana.png");
@@ -92,14 +84,14 @@ class Enemies {
   addBulletListener(i) {
     var that = this;
     this.enemies[i].addEventListener ( 'collision' , function (elOtroObjeto , velocidad , rotacion , normal) {
-      if (that.countCollitions[i] == 1) {
+      if (that.countCollitions[i] === 1) {
         var sound = new Howl({
           src: ['sounds/death.mp3'], volume: 0.3
         });
         sound.play();
         scene.updateScore(10);
         that.countDead++;
-        if(that.countDead == 4){
+        if(that.countDead === 4){
           scene.level++;
           scene.newLevel();
         }
@@ -118,23 +110,23 @@ class Enemies {
 
   animate() {
     for (var i = 0; i < this.enemies.length; ++i) {
-      if (this.enemies[i].position.x >= 100 && this.direction[i] == "left") {
+      if (this.enemies[i].position.x >= 100 && this.direction[i] === "left") {
         this.enemies[i].applyCentralImpulse(new THREE.Vector3(-this.force,0,0));
         this.direction[i] = "right";
       }
-      else if (this.enemies[i].position.x <= -100 && this.direction[i] == "right") { 
+      else if (this.enemies[i].position.x <= -100 && this.direction[i] === "right") { 
         this.enemies[i].applyCentralImpulse(new THREE.Vector3(this.force,0,0));
         this.direction[i] = "left";
       }
     }
     if(this.init) {
-      this.force*=2;
+      this.force *= 2;
       this.init = false;
     }
 
     //Force next level in case it didn't detect a collision
-    if (this.enemies[0].position.z != -150 && this.enemies[1].position.z != -250 && 
-      this.enemies[2].position.z != -350 && this.enemies[3].position.z != -450) {
+    if (this.enemies[0].position.z !== -150 && this.enemies[1].position.z !== -250 && 
+      this.enemies[2].position.z !== -350 && this.enemies[3].position.z !== -450) {
       scene.level++;
       scene.newLevel();
     }

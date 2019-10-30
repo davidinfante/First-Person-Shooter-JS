@@ -228,7 +228,7 @@ class TheScene extends Physijs.Scene {
 
     this.enemies.animate();
 
-    if (this.actualAmmo == 0) {
+    if (this.actualAmmo === 0) {
       this.endGame();
     }
   }

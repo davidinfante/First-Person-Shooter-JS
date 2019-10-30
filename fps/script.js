@@ -72,7 +72,7 @@ function setMessage (str) {
  */
 function onMouseDown (event) {
   if (enableControls) {
-    if(event.buttons == 1 && blocker.style.display == 'none') {
+    if(event.buttons === 1 && blocker.style.display === 'none') {
       scene.dispara();
       disparando = true;
     }
@@ -117,7 +117,7 @@ function onKeyDown (event) {
     }
   }
 
-  if (event.keyCode == 80 && enableControls == false) { // p
+  if (event.keyCode === 80 && enableControls === false) { // p
     scene.newGame();
   }
 }
@@ -211,7 +211,7 @@ $(function () {
 
     var pointerlockchange = function ( event ) {
 
-      if ( document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element ) {
+      if ( document.pointerLockElement ==== element || document.mozPointerLockElement ==== element || document.webkitPointerLockElement ==== element ) {
 
         controlsEnabled = true;
         controls.enabled = true;
