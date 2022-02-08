@@ -9,5 +9,3 @@
 - Use the command `python -m http.server 8000` in cmd.
 - Open a web browser and type [localhost:8000/](http://localhost:8000/).
 - When you are in [localhost:8000/](http://localhost:8000/), search the game's folder (/fps).
-
-It is now hosted on my github's site! [play](http://davidinfante.github.io)
